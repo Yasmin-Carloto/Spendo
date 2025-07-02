@@ -14,7 +14,7 @@ const verifyJWT = function (req, res, next) {
       return res.status(401).json({ error: 'Token inválido' });
     }
 
-    req.user_id = decoded.id; // ou outro campo que você gravou no token
+    req.user = { id: decoded.id };
     next();
   });
 };
