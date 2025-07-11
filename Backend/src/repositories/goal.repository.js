@@ -1,30 +1,30 @@
-const { Goal, Transaction } = require('../database/models');
-const { Op } = require('sequelize');
+const db = require('../database/models')
+const { Goal } = db
 
-async function getGoalsWithProgress(userId) {
-  const goals = await Goal.findAll({ where: { userId } });
-
-  const metasComProgresso = await Promise.all(goals.map(async goal => {
-    const totalCategoria = await Transaction.sum('valor', {
-      where: {
-        userId,
-        categoria: goal.categoria,
-        tipo: 'saida'
-      }
-    });
-
-    const progresso = totalCategoria || 0;
-
-    return {
-      id: goal.id,
-      categoria: goal.categoria,
-      valorMeta: goal.valor,
-      progresso,
-      atingido: progresso >= goal.valor
-    };
-  }));
-
-  return metasComProgresso;
+async function create(data) {
+  await Goal.create(data)
 }
 
-module.exports = { getGoalsWithProgress };
+async function update(data, id, userId) {
+  await Goal.update(data, { where: { id, userId } })
+}
+
+async function remove(id, userId) {
+  await Goal.destroy({ where: { id, userId } })
+}
+
+async function findByUserId(userId) {
+  await Goal.findAll({ where: { userId } })
+}
+
+async function findByIdAndUserId(id, userId) {
+  await Goal.findOne({ where: { id, userId } })
+}
+
+module.exports = {
+  create,
+  update,
+  remove,
+  findByUserId,
+  findByIdAndUserId,
+}
