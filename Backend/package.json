@@ -1,10 +1,10 @@
 {
   "name": "spendo",
   "version": "1.0.0",
-  "main": "Backend/src/loader.js",
+  "main": "src/loader.js",
   "scripts": {
     "dev": "nodemon",
-    "production": "pm2 start src/loadr.js --name todo-app"
+    "production": "pm2 start src/loader.js --name todo-app"
   },
   "keywords": [],
   "author": "",
