@@ -1,34 +1,25 @@
-const db = require('../database/models/index');
-const { User } = db;  // IMPORTANTE: aqui User, não Usuario
+const db = require('../database/models/index')
+const { User } = db
 
-const create = async function(user) {
-    const userCreated = await User.create(user);
-    return userCreated;
-};
+async function create(user) {
+    return await User.create(user)
+}
 
-const atualizar = async function(dados, id) {
-    return await User.update(dados, { where: { id } });
-};
+async function update(data, id) {
+    return await User.update(data, { where: { id } })
+}
 
-const encontrarTodos = async function() {
-    const users = await User.findAll();
-    return users;
-};
+async function findById(id) {
+    return await User.findByPk(id)
+}
 
-const encontrarPorId = async function(id) {
-    const user = await User.findByPk(id);
-    return user;
-};
-
-const encontrarPorWhere = async function(where) {
-    const user = await User.findOne({ where });
-    return user;
-};
+async function findByWhere(where) {
+    return await User.findOne({ where })
+}
 
 module.exports = {
     create,
-    atualizar,
-    encontrarTodos,
-    encontrarPorId,
-    encontrarPorWhere,
-};
+    update,
+    findById,
+    findByWhere,
+}

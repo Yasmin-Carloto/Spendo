@@ -4,69 +4,87 @@ require('dotenv').config();
 const bcrypt = require('bcrypt');
 const { sign } = require('jsonwebtoken');
 
-const create = async function(user) {
-  const existingUser = await userRepository.encontrarPorWhere({ email: user.email });
+async function create(user) {
+  const existingUser = await userRepository.findByWhere({ email: user.email });
 
-  if (existingUser) {
-    throw createError(409, 'User already exists');
-  }
+  if (existingUser) throw createError(409, 'User already exists')
 
-  user.password = await bcrypt.hash(user.password, parseInt(process.env.SALT));
-  const createdUser = await userRepository.create(user);
+  user.password = await bcrypt.hash(user.password, parseInt(process.env.SALT))
+  const createdUser = await userRepository.create(user)
 
-  // remover password do retorno
-  const userJson = createdUser.toJSON();
-  delete userJson.password;
-
-  return userJson;
-};
-
-const login = async function(user) {
-  const userLogin = await userRepository.encontrarPorWhere({ email: user.email });
-
-  if (!userLogin) {
-    throw createError(401, 'Invalid user!');
-  }
-
-  const passwordMatch = await bcrypt.compare(user.password, userLogin.password);
-
-  if (!passwordMatch) {
-    throw createError(401, 'Invalid user!');
-  }
+  const userJson = createdUser.toJSON()
+  delete userJson.password
 
   const token = sign(
-    { id: userLogin.id },
+    { id: createdUser.id },
     process.env.SECRET,
-    { expiresIn: '1h' }
-  );
-
-  const userJson = userLogin.toJSON();
-  delete userJson.password;
+    { expiresIn: '30d' }
+  )
 
   return {
     auth: true,
     user: userJson,
     token,
-  };
-};
+  }
+}
 
-const encontrarTodos = async function() {
-  return await userRepository.encontrarTodos();
-};
+async function login(user) {
+  const userLogin = await userRepository.findByWhere({ email: user.email })
+  if (!userLogin) throw createError(401, 'Invalid user!')
 
-const encontrarPorId = async function(id) {
-  const user = await userRepository.encontrarPorId(id);
+  const passwordMatch = await bcrypt.compare(user.password, userLogin.password)
+  if (!passwordMatch) throw createError(401, 'Invalid user!')
 
-  if (!user) {
-    throw createError(404, 'User not found');
+  const token = sign(
+    { id: userLogin.id },
+    process.env.SECRET,
+    { expiresIn: '30d' }
+  )
+
+  const userJson = userLogin.toJSON()
+  delete userJson.password
+
+  return {
+    auth: true,
+    user: userJson,
+    token,
+  }
+}
+
+async function getUserInfoById(id) {
+  const user = await userRepository.findById(id)
+  if (!user) throw createError(404, 'User not found')
+
+  const userInfoJson = user.toJSON()
+  delete userInfoJson.password
+
+  return userInfoJson
+}
+
+async function update(data, id) {
+  const existingUser = await userRepository.findById(id)
+  if (!existingUser) throw createError(404, 'User not found')
+
+  if (data.password) {
+    data.password = await bcrypt.hash(data.password, parseInt(process.env.SALT))
   }
 
-  return user;
-};
+  const result = await userRepository.update(data, id)
+  if (result[0] === 0) {
+    throw createError(400, 'Update failed')
+  } else {
+      const updatedUser = await userRepository.findById(id)
+      const updatedUserJson = updatedUser.toJSON()
+      delete updatedUserJson.password
+
+      return updatedUserJson
+  }
+}
+
 
 module.exports = {
   create,
-  encontrarTodos,
-  encontrarPorId,
+  getUserInfoById,
   login,
-};
+  update,
+}
