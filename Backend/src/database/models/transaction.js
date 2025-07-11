@@ -1,16 +1,23 @@
 'use strict';
 const { Model } = require('sequelize');
+const { TRANSACTION_TYPES } = require('../../utils/transaction.types');
 
 module.exports = (sequelize, DataTypes) => {
   class Transaction extends Model {
     static associate(models) {
-      // Associação com User
       Transaction.belongsTo(models.User, {
         foreignKey: 'userId',
         as: 'user',
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
       });
+
+      Transaction.belongsTo(models.Category, {
+        foreignKey: 'categoryId',
+        as: 'category',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+      })
     }
   }
 
@@ -31,18 +38,18 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
     },
-    category: {
-      type: DataTypes.STRING,
+    categoryId: {
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
     type: {
-      type: DataTypes.ENUM('entrada', 'saida'),
+      type: DataTypes.ENUM([TRANSACTION_TYPES.EXPENSE, TRANSACTION_TYPES.INCOME]),
       allowNull: false,
     },
   }, {
     sequelize,
     modelName: 'Transaction',
-    tableName: 'transactions', // para garantir o nome da tabela
+    tableName: 'transactions',
   });
 
   return Transaction;

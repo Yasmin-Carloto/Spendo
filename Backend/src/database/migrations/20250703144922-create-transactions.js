@@ -1,5 +1,7 @@
 'use strict';
 
+const { TRANSACTION_TYPES } = require("../../utils/transaction.types");
+
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('transactions', {
@@ -28,12 +30,18 @@ module.exports = {
         type: Sequelize.DECIMAL(10, 2),
         allowNull: false,
       },
-      category: {
-        type: Sequelize.STRING,
+      categoryId: {
+        type: Sequelize.INTEGER,
         allowNull: false,
+        references: {
+          model: 'categories',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
       },
       type: {
-        type: Sequelize.ENUM('entrada', 'saida'),
+        type: Sequelize.ENUM([TRANSACTION_TYPES.EXPENSE, TRANSACTION_TYPES.INCOME]),
         allowNull: false,
       },
       createdAt: {

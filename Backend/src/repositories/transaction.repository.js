@@ -1,19 +1,40 @@
-const models = require('../database/models');
-console.log('Models disponíveis:', Object.keys(models));
+const db = require('../database/models')
+const { Transaction } = db
 
-const { Transaction } = models;
-console.log('Transaction está:', Transaction);
-
-
-async function getTotalByType(userId, tipo) {
-  const result = await Transaction.sum('value', {
-    where: {
-      userId,
-      type: tipo,
-    },
-  });
-
-  return result || 0;
+async function create (data) {
+  return await Transaction.create(data)
 }
 
-module.exports = { getTotalByType };
+async function update(data, id, userId) {
+  return await Transaction.update(data, { where: { id, userId } })
+}
+
+async function remove(id, userId) {
+  return await Transaction.destroy({ where: { id, userId } })
+}
+
+async function findByUserId(userId) {
+  return await Transaction.findAll({ where: { userId } })
+}
+
+async function findByType(type, userId) {
+  return await Transaction.findAll({ where: { type, userId } })
+}
+
+async function findByCategory(categoryId, userId) {
+  return await Transaction.findAll({ where: { categoryId, userId } })
+}
+
+async function findByIdAndUserId(id, userId) {
+  return await Transaction.findOne({ where: { id, userId } })
+}
+
+module.exports = {
+  create,
+  update,
+  remove,
+  findByUserId,
+  findByType,
+  findByCategory,
+  findByIdAndUserId,
+}
