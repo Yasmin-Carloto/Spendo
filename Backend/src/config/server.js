@@ -1,29 +1,31 @@
-require('dotenv').config();
+require('dotenv').config()
 
-const express = require('express');
-const bodyParser = require('body-parser');
+// Requerindo bibliotecas
+const express = require('express')
+const bodyParser = require('body-parser')
 
-const handle404Error = require('../middlewares/handle404Error');
-const handleError = require('../middlewares/handleError');
+// Requerindo middlewares de erro
+const handle404Error = require('../middlewares/handle404Error')
+const handleError = require('../middlewares/handleError')
 
-const userRoute = require('../routes/user.route');
-const dashboardRoute = require('../routes/dashboard.route'); 
+const { userRoute, categoryRoute, transactionRoute, goalRoute } = require("../routes/index")
 
-const server = express();
-
-server.use(bodyParser.urlencoded({ extended: true }));
-server.use(bodyParser.json());
+const server = express()
+server.use(bodyParser.urlencoded({ extended: true }))
+server.use(bodyParser.json())
 
 // Rotas
-server.use('/api/users', userRoute);
-server.use('/api/dashboard', dashboardRoute); 
+server.use('/api/users', userRoute)
+server.use("/api/categories", categoryRoute)
+server.use("/api/transactions", transactionRoute)
+server.use("/api/goals", goalRoute)
 
 // Middleware de erro
 server.use(handle404Error);
 server.use(handleError);
 
-server.listen(process.env.PORTA, () => {
-  console.log(`BACKEND rodando na porta ${process.env.PORTA}...`);
-});
+server.listen(process.env.API_PORT, () => {
+  console.log(`BACKEND rodando na porta ${process.env.API_PORT}...`)
+})
 
-module.exports = server;
+module.exports = server
