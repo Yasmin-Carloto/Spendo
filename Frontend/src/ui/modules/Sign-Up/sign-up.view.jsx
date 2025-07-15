@@ -11,7 +11,7 @@ export default function SignUp() {
         <div className="hidden md:flex flex-1 justify-center">
           {/* Colocar src da imagem */}
           <img
-            src=""
+            src="https://raw.githubusercontent.com/VictorGMoreira/Spendo/9a7b05a0a8c43c04ff1665cf28ac27fb9d6d26f5/Frontend/src/ui/assets/signup-image.svg"
             alt="Ilustração"
             className="max-w-md"
           />
