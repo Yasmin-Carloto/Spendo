@@ -1,9 +1,10 @@
 import { Outlet } from "react-router-dom"
+import { PublicHeader } from "../../components/public-header/PublicHeader"
 
 export function PublicTemplate() {
   return (
     <div>
-      <h1>Aqui vem as rotas no padrão login</h1>
+      <PublicHeader />
       <Outlet />
     </div>
   )

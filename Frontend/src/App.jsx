@@ -5,6 +5,7 @@ import { PrivateTemplate } from "./ui/templates/private-template/private.templat
 import { Login } from "./ui/modules/Login/login.view";
 import { Home } from "./ui/modules/Home/home.view";
 import { Navigate } from 'react-router-dom';
+import SignUp from "./ui/modules/Sign-Up/sign-up.view";
 
 export const router = createBrowserRouter([
   {
@@ -12,6 +13,14 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/login",
+        element: <Login />
+      },
+      {
+        path: "/signup",
+        element: <SignUp />
+      },
+      {
+        path: "/recover-password",
         element: <Login />
       },
       // Outras rotas como cadastro e etc
@@ -27,10 +36,14 @@ export const router = createBrowserRouter([
         index: true,
         element: <Home />
       },
-      {
-        path: "*",
-        element: <Navigate to="/" />
-      }
     ]
+  },
+  {
+    path: "/build-screen",
+    element: <h1>Tela em construção</h1>
+  },
+  {
+    path: "*",
+    element: <Navigate to="/" />
   }
 ])
