@@ -30,10 +30,10 @@ async function create(user) {
 
 async function login(user) {
   const userLogin = await userRepository.findByWhere({ email: user.email })
-  if (!userLogin) throw createError(401, 'Invalid user!')
+  if (!userLogin) throw createError(401, 'User not registered!')
 
   const passwordMatch = await bcrypt.compare(user.password, userLogin.password)
-  if (!passwordMatch) throw createError(401, 'Invalid user!')
+  if (!passwordMatch) throw createError(401, 'Password does not match!')
 
   const token = sign(
     { id: userLogin.id },

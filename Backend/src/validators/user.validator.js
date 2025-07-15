@@ -25,7 +25,7 @@ function create() {
                 minNumbers: 1,
                 minSymbols: 1
             })
-            .withMessage('Password must contain at least 6 characters, including 1 uppercase, 1 number and 1 symbol'),
+            .withMessage('Password must contain at least 6 characters, including 1 uppercase, 1 lowercase, 1 number and 1 symbol'),
     ]
 }
 

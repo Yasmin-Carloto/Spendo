@@ -11,6 +11,16 @@ const handleError = require('../middlewares/handleError')
 const { userRoute, categoryRoute, transactionRoute, goalRoute } = require("../routes/index")
 
 const server = express()
+
+const cors = require('cors')
+server.use(cors({
+  origin: 'http://localhost:5173',
+  methods: ['GET', 'POST', 'PUT', "DELETE", "PATCH"],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}))
+
+server.options('/{*any}', cors()) 
+
 server.use(bodyParser.urlencoded({ extended: true }))
 server.use(bodyParser.json())
 
