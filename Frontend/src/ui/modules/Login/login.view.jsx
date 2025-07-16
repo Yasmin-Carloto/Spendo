@@ -1,23 +1,23 @@
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/Button"
-import { useLogin } from "./useLogin";
+import { useLogin } from "./useLogin"
+import loginImage from "../../assets/login-image.svg"
 
 export function Login() {
    const { errors, goToSignup, setFormsField, submitLogin, goToForgotPassword } = useLogin()
    return (
-      <div className="min-h-screen flex items-center justify-center px-4">
+      <div className="py-16 flex items-center justify-center px-4">
         <div className="max-w-6xl w-full flex flex-col md:flex-row items-center justify-between gap-10">
           <div className="hidden md:flex flex-1 justify-center">
-            {/* Adicionar imagem */}
             <img
-              src=""
+              src={loginImage}
               alt="Ilustração"
-              className="max-w-md"
+              className="w-1/2"
             />
           </div>
   
           {/* Formulário */}
-          <div className="bg-card rounded-lg shadow-md p-8 w-full max-w-sm">
+          <div className="bg-card rounded-lg shadow-md p-8 w-full max-w-md">
             <h2 className="text-lg font-bold text-foreground">Crie sua conta</h2>
             <p className="text-main-green font-black mb-4 text-lg">SPENDO</p>
   

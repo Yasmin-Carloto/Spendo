@@ -3,7 +3,7 @@ import { PublicHeader } from "../../components/public-header/PublicHeader"
 
 export function PublicTemplate() {
   return (
-    <div>
+    <div className="min-h-screen ">
       <PublicHeader />
       <Outlet />
     </div>
