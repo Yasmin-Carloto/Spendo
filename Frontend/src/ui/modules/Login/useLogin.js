@@ -16,7 +16,7 @@ export function useLogin() {
     }
 
     function goToForgotPassword() {
-        navigate("/build-screen")
+        navigate("/forgot-password")
     }
 
     function setFormsField(event) {
@@ -78,8 +78,8 @@ export function useLogin() {
 
         if(!loginFields.password) {
             allErrors.password = "O campo senha é obrigatório!"
-        } else if(!/^(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[^A-Za-z0-9]).{6,}$/.test(loginFields.password)) {
-            allErrors.password = "O campo senha deve ter pelo menos 6 caractéres, 1 letra maiúscula, 1 número e 1 símbolo."
+        } else if(!/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^A-Za-z0-9]).{6,}$/.test(loginFields.password)) {
+            allErrors.password = "O campo senha deve ter pelo menos 6 caractéres, 1 letra maiúscula, 1 letra minúscula, 1 número e 1 símbolo."
         }
 
         return allErrors

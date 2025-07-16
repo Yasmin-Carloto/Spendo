@@ -85,7 +85,7 @@ export function useSignup() {
         if(!signupFields.password) {
             allErrors.password = "O campo senha é obrigatório!"
         } else if(!/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^A-Za-z0-9]).{6,}$/.test(signupFields.password)) {
-            allErrors.password = "O campo senha deve ter pelo menos 6 caractéres, 1 letra maiúscula, 1 número e 1 símbolo."
+            allErrors.password = "O campo senha deve ter pelo menos 6 caractéres, 1 letra maiúscula, 1 letra minúscula, 1 número e 1 símbolo."
         }
 
         if(!signupFields.passwordConfirmation) {
