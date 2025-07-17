@@ -10,7 +10,10 @@ import { BuildScreen } from "./ui/modules/Build-Screen/build-screen.view";
 
 export const router = createBrowserRouter([
   {
-    element: <PublicTemplate />,
+    element: 
+      <ProtectedRoute>
+        <PublicTemplate />
+      </ProtectedRoute>,
     children: [
       {
         path: "/login",

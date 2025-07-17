@@ -1,7 +1,7 @@
 FROM node:22
 
 ARG API_PORT
-WORKDIR /app
+WORKDIR /back
 
 COPY package*.json .
 RUN npm install
@@ -11,4 +11,4 @@ RUN npm install sequelize-cli
 
 EXPOSE ${API_PORT}
 
-CMD ["npm", "run", "dev"]
+CMD ["sh", "-c", "npx sequelize-cli db:migrate && npm run dev"]

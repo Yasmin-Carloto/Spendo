@@ -20,7 +20,7 @@ export function AuthorizationProvider({ children }) {
 
   const removeToken = () => {
     setToken(null)
-    localStorage.removeItem('token')
+    localStorage.removeItem('spendo-token')
   }
 
   return (

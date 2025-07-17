@@ -9,8 +9,7 @@ logs/
 *.log
 
 # dotenv
-*.env
-Backend/.env
+.env
 .env.*.local
 
 # Docker volumes / banco de dados

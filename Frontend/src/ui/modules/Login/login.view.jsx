@@ -1,5 +1,5 @@
 import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/Button"
+import { Button } from "@/components/ui/button"
 import { useLogin } from "./useLogin"
 import loginImage from "../../assets/login-image.svg"
 
