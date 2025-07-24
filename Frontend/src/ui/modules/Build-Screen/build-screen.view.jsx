@@ -1,6 +1,6 @@
 import buildImage from '../../assets/build-screen-image.svg'
 
-export function BuildScreen() {
+export default function BuildScreen() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-4">
       <div className="text-center">
