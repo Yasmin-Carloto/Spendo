@@ -47,9 +47,24 @@ async function findAllByUser(req, res, next) {
   }
 }
 
+async function findById(req, res, next) {
+  try {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) throw createError(422, { errors: errors.array() })
+
+    const goal = await goalService.findById(req.params.id, req.user.id)
+    if (!goal) throw createError(404, 'Goal not found')
+
+    res.send(goal)
+  } catch (err) {
+    next(err)
+  }
+}
+
 module.exports = {
   create,
   update,
   remove,
   findAllByUser,
+  findById,
 }

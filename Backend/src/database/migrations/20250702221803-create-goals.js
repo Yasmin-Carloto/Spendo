@@ -27,15 +27,15 @@ module.exports = {
         type: Sequelize.DATEONLY,
         allowNull: false,
       },
-      finaldate: {
+      finalDate: {
         type: Sequelize.DATEONLY,
         allowNull: false,
       },
-      moneytocollect: {
+      moneyToCollect: {
         type: Sequelize.DECIMAL(10, 2),
         allowNull: false,
       },
-      moneycollected: {
+      moneyCollected: {
         type: Sequelize.DECIMAL(10, 2),
         allowNull: false,
         defaultValue: 0.00,

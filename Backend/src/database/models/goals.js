@@ -23,19 +23,19 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    begindate: {
+    beginDate: {
       type: DataTypes.DATEONLY,
       allowNull: false,
     },
-    finaldate: {
+    finalDate: {
       type: DataTypes.DATEONLY,
       allowNull: false,
     },
-    moneytocollect: {
+    moneyToCollect: {
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
     },
-    moneycollected: {
+    moneyCollected: {
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
       defaultValue: 0.00,

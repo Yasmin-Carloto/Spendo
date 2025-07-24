@@ -8,5 +8,6 @@ router.get('/', verifyJWT, controller.findAllByUser)
 router.post('/', validator.create(), verifyJWT, controller.create)
 router.put('/:id', validator.update(), verifyJWT, controller.update)
 router.delete('/:id', validator.remove(), verifyJWT, controller.remove)
+router.get('/:id', validator.findById(), verifyJWT, controller.findById)
 
 module.exports = router

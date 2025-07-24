@@ -28,9 +28,17 @@ const findAllByUser = async (userId) => {
   return await goalRepository.findByUserId(userId)
 }
 
+const findById = async (id, userId) => {
+  const goal = await goalRepository.findByIdAndUserId(id, userId)
+  if (!goal) throw createError(404, 'Goal not found')
+  return goal
+}
+
+
 module.exports = {
   create,
   update,
   remove,
   findAllByUser,
+  findById,
 }
