@@ -49,6 +49,12 @@ async function findByCategory(categoryId, userId) {
   return await transactionRepository.findByCategory(categoryId, userId)
 }
 
+const findById = async (id, userId) => {
+  const transaction = await transactionRepository.findByIdAndUserId(id, userId)
+  if (!transaction) throw createError(404, 'Transaction not found')
+  return transaction
+}
+
 module.exports = {
   create,
   update,
@@ -56,4 +62,5 @@ module.exports = {
   findAllByUser,
   findByType,
   findByCategory,
+  findById
 }

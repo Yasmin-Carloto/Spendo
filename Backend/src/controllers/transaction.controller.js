@@ -85,6 +85,20 @@ async function findByCategory(req, res, next) {
   }
 }
 
+async function findById(req, res, next) {
+  try {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) throw createError(422, { errors: errors.array() })
+
+    const transaction = await transactionService.findById(req.params.id, req.user.id)
+    if (!transaction) throw createError(404, 'Transaction not found')
+
+    res.status(200).send(transaction)
+  } catch (err) {
+    next(err)
+  }
+}
+
 module.exports = {
   create,
   update,
@@ -92,4 +106,5 @@ module.exports = {
   findAllByUser,
   findByType,
   findByCategory,
+  findById,
 }

@@ -65,10 +65,20 @@ function findByCategory() {
     ]
 }
 
+function findById() {
+  return [
+    param("id", validatorMessage("id"))
+      .exists()
+      .bail()
+      .isInt({ gt: 0 }),
+  ]
+}
+
 module.exports = {
   create,
   update,
   remove,
   findByType,
-  findByCategory
+  findByCategory,
+  findById,
 }
