@@ -60,9 +60,24 @@ async function findAllByUser (req, res, next) {
   }
 }
 
+async function findById(req, res, next) {
+  try {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) throw createError(422, { errors: errors.array() })
+
+    const category = await categoryService.findById(req.params.id, req.user.id)
+    if (!category) throw createError(404, 'Category not found')
+
+    res.status(200).send(category)
+  } catch (err) {
+    next(err)
+  }
+}
+
 module.exports = {
   create,
   update,
   remove,
   findAllByUser,
+  findById,
 }

@@ -41,8 +41,18 @@ function remove() {
   ]
 }
 
+function findById() {
+  return [
+    param('id', validatorMessage('id'))
+      .exists()
+      .bail()
+      .isInt(),
+  ]
+}
+
 module.exports = {
   create,
   update,
   remove,
+  findById,
 }

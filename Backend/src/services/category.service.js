@@ -30,9 +30,16 @@ async function findAllByUser(userId) {
   return await categoryRepository.findByUserId(userId)
 }
 
+const findById = async (id, userId) => {
+  const category = await categoryRepository.findByIdAndUserId(id, userId)
+  if (!category) throw createError(404, 'Category not found')
+  return category
+}
+
 module.exports = {
   create,
   update,
   remove,
   findAllByUser,
+  findById,
 }
