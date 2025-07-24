@@ -1,9 +1,9 @@
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { useLogin } from "./useLogin"
+import useLogin from "./useLogin"
 import loginImage from "../../assets/login-image.svg"
 
-export function Login() {
+export default function Login() {
    const { errors, goToSignup, setFormsField, submitLogin, goToForgotPassword } = useLogin()
    return (
       <div className="py-16 flex items-center justify-center px-4">

@@ -2,7 +2,7 @@ import { useState } from "react"
 import { useNavigate } from "react-router"
 import { useAuthorization } from "../../../contexts/authorization.context"
 
-export function useLogin() {
+export default function useLogin() {
     const [errors, setErrors] = useState({})
     const [loginFields, setLoginFields] = useState({
         email: "",

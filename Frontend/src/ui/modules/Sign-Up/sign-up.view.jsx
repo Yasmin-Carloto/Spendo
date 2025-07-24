@@ -1,6 +1,6 @@
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { useSignup } from "./useSignup"
+import useSignup from "./useSignup"
 import signupImage from "../../assets/signup-image.svg"
 
 export default function SignUp() {

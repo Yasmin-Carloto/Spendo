@@ -2,7 +2,7 @@ import { useState } from "react"
 import { useNavigate } from "react-router"
 import { useAuthorization } from "../../../contexts/authorization.context"
 
-export function useSignup() {
+export default function useSignup() {
     const [errors, setErrors] = useState({})
     const [signupFields, setSignupFields] = useState({
         name: "",
@@ -50,7 +50,7 @@ export function useSignup() {
                 setErrors({})
                 navigate("/")
             } catch (error) {
-                throw new Error(error)
+                console.error(error)
             }
 
         } else {
