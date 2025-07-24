@@ -1,12 +1,14 @@
 import { createBrowserRouter } from "react-router-dom";
-import { ProtectedRoute } from "./ui/templates/protected-route/protected-route.template";
-import { PublicTemplate } from "./ui/templates/public-template/public.template";
-import { PrivateTemplate } from "./ui/templates/private-template/private.template";
-import { Login } from "./ui/modules/Login/login.view";
-import { Home } from "./ui/modules/Home/home.view";
-import { Navigate } from 'react-router-dom';
+import ProtectedRoute from "./ui/templates/protected-route/protected-route.template";
+import PublicTemplate from "./ui/templates/public-template/public.template";
+import PrivateTemplate from "./ui/templates/private-template/private.template";
+import Login from "./ui/modules/Login/login.view";
+import Home from "./ui/modules/Home/home.view";
 import SignUp from "./ui/modules/Sign-Up/sign-up.view";
-import { BuildScreen } from "./ui/modules/Build-Screen/build-screen.view";
+import BuildScreen from "./ui/modules/Build-Screen/build-screen.view";
+import TransactionForm from "./ui/modules/Transaction-Form/transaction-form.view";
+import GoalForm from "./ui/modules/Goal-Form/goal-form.view";
+import CategoryForm from "./ui/modules/Category-Form/category-form.view";
 
 export const router = createBrowserRouter([
   {
@@ -39,54 +41,62 @@ export const router = createBrowserRouter([
         <PrivateTemplate />
       </ProtectedRoute>,
     children: [
+      // Dashboard
       {
         index: true,
-        element: <Home />
+        element: <BuildScreen />
       },
+      // Transactions
       {
         path: "/transactions",
         element: <BuildScreen />
       },
       {
         path: "/create-transaction",
-        element: <BuildScreen />
+        element: <TransactionForm />
       },
       {
-        path: "/edit-transaction",
-        element: <BuildScreen />
+        path: "/edit-transaction/:id",
+        element: <TransactionForm />
       },
+      // Goals
       {
         path: "/goals",
         element: <BuildScreen />
       },
       {
         path: "/create-goal",
-        element: <BuildScreen />
+        element: <GoalForm />
       },
       {
-        path: "/edit-goal",
-        element: <BuildScreen />
+        path: "/edit-goal/:id",
+        element: <GoalForm />
       },
+      // Historic
       {
         path: "/historic",
         element: <BuildScreen />
       },
+      // Categories
       {
         path: "/create-category",
-        element: <BuildScreen />
+        element: <CategoryForm />
       },
       {
-        path: "/edit-category",
-        element: <BuildScreen />
+        path: "/edit-category/:id",
+        element: <CategoryForm />
       },
+      // FAQ
       {
         path: "/faq",
         element: <BuildScreen />
       },
+      // About us
       {
         path: "/about-us",
         element: <BuildScreen />
       },
+      // Profile
       {
         path: "/profile",
         element: <BuildScreen />
@@ -95,6 +105,6 @@ export const router = createBrowserRouter([
   },
   {
     path: "*",
-    element: <Navigate to="/" />
+    element: <div>404 - Página não encontrada</div>
   }
 ])
