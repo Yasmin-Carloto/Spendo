@@ -62,5 +62,5 @@ module.exports = {
   findAllByUser,
   findByType,
   findByCategory,
-  findById
+  findById,
 }

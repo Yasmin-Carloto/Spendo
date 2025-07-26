@@ -1,4 +1,4 @@
-const { body, param } = require('express-validator')
+const { body, param, query } = require('express-validator')
 const { validatorMessage } = require('../utils/errorMessage')
 const { TRANSACTION_TYPES } = require('../utils/transaction.types')
 
