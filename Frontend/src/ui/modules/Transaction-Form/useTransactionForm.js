@@ -34,7 +34,6 @@ export default function useTransactionForm() {
 
     useEffect(() => {
         async function initForm() {
-            console.log(id)
             if (id) {
                 try {
                     const response = await fetch(`${import.meta.env.VITE_SPENDO_API_URL_BASE}/transactions/${id}`, {
@@ -43,12 +42,10 @@ export default function useTransactionForm() {
                             "Authorization": `Bearer ${token}`,
                         },
                     })
-                    console.log(response)
                     
                     if (!response.ok) throw new Error("Error searching transaction")
 
                     const transaction = await response.json()
-                    console.log(transaction)
 
                     setTransactionFormFields({
                         title: transaction.title,
@@ -80,7 +77,6 @@ export default function useTransactionForm() {
     }
 
     async function removeCategory(id) {
-        console.log(id)
         try {
             await fetch(`${import.meta.env.VITE_SPENDO_API_URL_BASE}/categories/${id}`, {
                 method: "DELETE",
