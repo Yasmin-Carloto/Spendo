@@ -9,6 +9,7 @@ import BuildScreen from "./ui/modules/Build-Screen/build-screen.view";
 import TransactionForm from "./ui/modules/Transaction-Form/transaction-form.view";
 import GoalForm from "./ui/modules/Goal-Form/goal-form.view";
 import CategoryForm from "./ui/modules/Category-Form/category-form.view";
+import Transactions from "./ui/modules/Transaction/transactions.view";
 
 export const router = createBrowserRouter([
   {
@@ -49,7 +50,7 @@ export const router = createBrowserRouter([
       // Transactions
       {
         path: "/transactions",
-        element: <BuildScreen />
+        element: <Transactions />
       },
       {
         path: "/create-transaction",
