@@ -1,4 +1,4 @@
-import { useAuthorization } from "../../../contexts/authorization.context"
+import { useAuthorization } from "@/contexts/authorization.context"
 import { Navigate, Outlet } from 'react-router-dom';
 
 export default function ProtectedRoute({ children }) {

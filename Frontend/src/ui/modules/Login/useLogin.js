@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useNavigate } from "react-router"
-import { useAuthorization } from "../../../contexts/authorization.context"
+import { useAuthorization } from "@/contexts/authorization.context"
 
 export default function useLogin() {
     const [errors, setErrors] = useState({})

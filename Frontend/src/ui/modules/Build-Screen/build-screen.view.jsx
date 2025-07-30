@@ -1,4 +1,4 @@
-import buildImage from '../../assets/build-screen-image.svg'
+import buildImage from '@/ui/assets/build-screen-image.svg'
 
 export default function BuildScreen() {
   return (

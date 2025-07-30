@@ -1,4 +1,4 @@
-import spendoLogo from "../../assets/spendo-logo.svg"
+import spendoLogo from "@/ui/assets/spendo-logo.svg"
 
 export function PublicHeader() {
     return (

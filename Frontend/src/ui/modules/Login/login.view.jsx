@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import useLogin from "./useLogin"
-import loginImage from "../../assets/login-image.svg"
+import loginImage from "@/ui/assets/login-image.svg"
 
 export default function Login() {
    const { errors, goToSignup, setFormsField, submitLogin, goToForgotPassword } = useLogin()

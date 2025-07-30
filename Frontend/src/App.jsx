@@ -1,15 +1,15 @@
-import { createBrowserRouter } from "react-router-dom";
-import ProtectedRoute from "./ui/templates/protected-route/protected-route.template";
-import PublicTemplate from "./ui/templates/public-template/public.template";
-import PrivateTemplate from "./ui/templates/private-template/private.template";
-import Login from "./ui/modules/Login/login.view";
-import Home from "./ui/modules/Home/home.view";
-import SignUp from "./ui/modules/Sign-Up/sign-up.view";
-import BuildScreen from "./ui/modules/Build-Screen/build-screen.view";
-import TransactionForm from "./ui/modules/Transaction-Form/transaction-form.view";
-import GoalForm from "./ui/modules/Goal-Form/goal-form.view";
-import CategoryForm from "./ui/modules/Category-Form/category-form.view";
-import Transactions from "./ui/modules/Transaction/transactions.view";
+import { createBrowserRouter } from "react-router-dom"
+import ProtectedRoute from "./ui/templates/protected-route/protected-route.template"
+import PublicTemplate from "./ui/templates/public-template/public.template"
+import PrivateTemplate from "./ui/templates/private-template/private.template"
+import Login from "./ui/modules/Login/login.view"
+import Home from "./ui/modules/Home/home.view"
+import SignUp from "./ui/modules/Sign-Up/sign-up.view"
+import BuildScreen from "./ui/modules/Build-Screen/build-screen.view"
+import TransactionForm from "./ui/modules/Transaction-Form/transaction-form.view"
+import GoalForm from "./ui/modules/Goal-Form/goal-form.view"
+import CategoryForm from "./ui/modules/Category-Form/category-form.view"
+import Transactions from "./ui/modules/Transaction/transactions.view"
 
 export const router = createBrowserRouter([
   {
@@ -45,7 +45,7 @@ export const router = createBrowserRouter([
       // Dashboard
       {
         index: true,
-        element: <BuildScreen />
+        element: <Home />
       },
       // Transactions
       {

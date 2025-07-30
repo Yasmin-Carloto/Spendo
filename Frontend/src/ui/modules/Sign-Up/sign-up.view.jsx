@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import useSignup from "./useSignup"
-import signupImage from "../../assets/signup-image.svg"
+import signupImage from "@/ui/assets/signup-image.svg"
 
 export default function SignUp() {
   const { errors, goToLogin, setFormsField, submitSignup } = useSignup()
