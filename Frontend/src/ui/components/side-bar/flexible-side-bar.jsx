@@ -16,7 +16,7 @@ import sidebarMenuItems from "@/ui/utils/sidebar-items"
 import useSidebar from "./useSidebar"
 
 export default function FlexibleSidebar() {
-  const { activeTab, setActiveTab, logout } = useSidebar()
+  const { logout } = useSidebar()
 
   return (
     <Sheet>
@@ -30,10 +30,8 @@ export default function FlexibleSidebar() {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     asChild
-                    onClick={() => setActiveTab(item.title)}
                     className={cn(
                       "flex items-center gap-2 py-2 rounded-md text-gray-400 hover:bg-gray-100",
-                      item.title === activeTab && "bg-emerald-400 text-white hover:bg-emerald-400"
                     )}
                   >
                     <Link to={item.url}>
