@@ -39,7 +39,7 @@ export default function TransactionForm() {
   return (
     <div className="max-w-2xl mx-auto mt-10 px-4">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-main-green">Nova Transação</h2>
+        <h2 className="text-3xl font-bold text-main-green">Nova Transação</h2>
         <Button
           onClick={() => goToAddCategory()}
           className="flex flex-col text-center"

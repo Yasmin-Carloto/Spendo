@@ -8,7 +8,7 @@ export default function CategoryForm() {
 
   return (
     <div className="max-w-2xl mx-auto mt-10 px-4">
-      <h2 className="text-2xl font-bold text-main-green">Nova Categoria</h2>
+      <h2 className="text-3xl font-bold text-main-green">Nova Categoria</h2>
 
       <form className="space-y-6" onSubmit={(event) => submitNewCategory(event)}>
         <div className="flex flex-col gap-4 items-end my-8">

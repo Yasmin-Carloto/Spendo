@@ -7,7 +7,7 @@ export default function GoalForm() {
   const { errors, minFinalDate, setFormsField, submitNewGoal, goalsFormFields } = useGoalForm()
   return (
     <div className="max-w-2xl mx-auto mt-10 px-4">
-      <h2 className="text-2xl font-bold text-main-green">Nova Meta</h2>
+      <h2 className="text-3xl font-bold text-main-green">Nova Meta</h2>
 
       <form className="space-y-6" onSubmit={(event) => submitNewGoal(event)}>
         <div className="flex flex-col md:flex-row gap-4 items-end md:my-8">
