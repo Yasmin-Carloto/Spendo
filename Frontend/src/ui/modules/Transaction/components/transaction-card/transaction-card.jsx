@@ -12,40 +12,42 @@ export default function TransactionCard({
 }) {
     return (
         <div 
-            className="border rounded-lg shadow p-4 bg-white text-center flex flex-col"
+            className="border rounded-lg shadow p-4 bg-white text-center flex flex-col w-full sm:w-[48%] flex-grow"
         >
-            <div className="flex items-start justify-between text-left gap-4">
-                <div className="text-left">
-                    <div className="flex flex-col">
-                        <span>Nome</span>
-                        <h4 className="text-2xl font-bold break-all">{title}</h4>
-                    </div>
-                    <p>
-                        <span className="font-medium">
-                            Data:
-                        </span> 
-                        {transactionDate}
-                    </p>
+            <div className="flex flex-col items-start justify-between text-left gap-4">
+                <div className="flex flex-col">
+                    <span className="text-zinc-600 font-light">Nome</span>
+                    <h4 className="text-2xl font-bold break-all">{title}</h4>
                 </div>
-                <div>
-                    <p>
-                        <span className="font-medium">
-                            Valor:
-                        </span> 
-                        R$ {transactionValue}
-                    </p>
-                    <p>
-                        <span className="font-medium">
-                            Categoria:
-                        </span> 
-                        {categoryName}
-                    </p>
-                    <p>
-                        <span className="font-medium">
-                            Tipo:
-                        </span> 
-                        {transactionType}
-                    </p>
+                <div className="flex justify-between w-full">
+                    <div className="flex flex-col text-center gap-2">
+                        <p className="flex flex-col text-left">
+                            <span className="font-light text-zinc-600 text-sm">
+                                Data:
+                            </span> 
+                            {transactionDate}
+                        </p>
+                        <p className="flex flex-col text-left">
+                            <span className="font-light text-zinc-600 text-sm">
+                                Valor:
+                            </span> 
+                            R$ {transactionValue}
+                        </p>
+                    </div>
+                    <div className="flex flex-col text-center gap-2">
+                        <p className="flex flex-col text-left">
+                            <span className="font-light text-zinc-600 text-sm">
+                                Categoria:
+                            </span> 
+                            {categoryName}
+                        </p>
+                        <p className="flex flex-col text-left">
+                            <span className="font-light text-zinc-600 text-sm">
+                                Tipo:
+                            </span> 
+                            {transactionType}
+                        </p>
+                    </div>
                 </div>
             </div>
             <div className="mt-2 flex gap-2 justify-between">

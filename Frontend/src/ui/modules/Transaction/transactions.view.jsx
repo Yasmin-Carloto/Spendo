@@ -9,7 +9,6 @@ import {
   Table,
   TableBody,
   TableCaption,
-  TableCell,
   TableHead,
   TableHeader,
   TableRow,
@@ -25,6 +24,7 @@ import {
 import { Button } from "@/components/ui/button"
 import useTransactions from "./useTransactions"
 import TransactionCard from "./components/transaction-card/transaction-card"
+import TransactionTableRow from "./components/table-row/transaction-table-row"
 
 export default function Transactions() {
   const { 
@@ -55,7 +55,7 @@ export default function Transactions() {
   return (
     <div className="max-w-6xl mx-auto p-4">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-main-green">Transações</h2>
+        <h2 className="text-3xl font-bold text-main-green">Transações</h2>
         <Button
           className="flex flex-col text-center"
           onClick={() => goToAddNewTransaction()}
@@ -74,8 +74,8 @@ export default function Transactions() {
               </SelectTrigger>
               <SelectContent>
                 {categories.map((category) => (
-                  <SelectItem key={category.id} value={category.name}>
-                    {category.name}
+                  <SelectItem key={category.id} value={category.name || ""}>
+                    {category.name || ""}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -136,22 +136,23 @@ export default function Transactions() {
 
       {/* Transactions Table*/}
       <div className="block lg:hidden">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <div className="flex flex-wrap gap-4">
           {filteredTransactions.map(transaction => {
             const category = getCategoryById(transaction.categoryId)
+            const categoryName = category?.name || "Categoria não encontrada"
             const transactionDate = formatDate(transaction.date)
             const transactionType = transaction.type == "income" ? "Entrada" : "Saída"
 
             return (
               <TransactionCard 
-                categoryName={category.name || ""}
+                categoryName={categoryName}
                 goToEditTransaction={goToEditTransaction}
                 openDeleteDialog={openDeleteDialog}
                 title={transaction.title}
                 transactionDate={transactionDate}
                 transactionId={transaction.id}
                 transactionType={transactionType}
-                transactionValue={transaction.id}
+                transactionValue={transaction.value}
                 key={transaction.id}
               />
             )
@@ -174,28 +175,24 @@ export default function Transactions() {
           <TableBody>
             {filteredTransactions.map(transaction => {
               const category = getCategoryById(transaction.categoryId)
+              const categoryName = category?.name || "Categoria não encontrada"
+              const categoryColor = category?.color || "#9CA3AF"
               const transactionDate = formatDate(transaction.date)
               const transactionType = transaction.type == "income" ? "Entrada" : "Saída"
 
               return (
-                <TableRow key={transaction.id}>
-                  <TableCell className="font-medium">{transaction.title}</TableCell>
-                  <TableCell>{transactionDate}</TableCell>
-                  <TableCell>R$ {transaction.value}</TableCell>
-                  <TableCell>{transactionType}</TableCell>
-                  <TableCell>
-                    <p
-                      style={{ backgroundColor: category?.color || "#9CA3AF" }}
-                      className="rounded-md text-white p-2"
-                    >
-                      {category.name}
-                    </p>
-                  </TableCell>
-                  <TableCell className="flex gap-2 justify-center">
-                    <Button variant="outline" onClick={() => goToEditTransaction(transaction.id)}>Editar</Button>
-                    <Button variant="destructive" onClick={() => openDeleteDialog(transaction.id)}>Excluir</Button>
-                  </TableCell>
-                </TableRow>
+                <TransactionTableRow 
+                  categoryName={categoryName}
+                  goToEditTransaction={goToEditTransaction}
+                  openDeleteDialog={openDeleteDialog}
+                  title={transaction.title || ""}
+                  transactionDate={transactionDate}
+                  transactionTotalValue={transaction.value}
+                  transactionType={transactionType}
+                  categoryColor={categoryColor}
+                  key={transaction.id}
+                  transactionId={transaction.id}
+                />
               )
             })}
           </TableBody>
