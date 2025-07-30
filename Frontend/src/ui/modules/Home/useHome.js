@@ -17,6 +17,16 @@ export default function useHome() {
   const [totalIncome, setTotalIncome] = useState(0)
   const [totalExpense, setTotalExpense] = useState(0)
   const [totalBalance, setTotalBalance] = useState(0)
+  const chartConfig = {
+    income: {
+      label: "Entrada",
+      color: "#2563eb",
+    },
+    expense: {
+      label: "Saída",
+      color: "#60a5fa",
+    },
+  }
 
   useEffect(() => {
     async function fetchTransactions() {
@@ -68,31 +78,33 @@ export default function useHome() {
   function generateChart(transactions) {
     const summary = {}
     const currentYear = new Date().getFullYear()
-
+  
     transactions.forEach((transaction) => {
-      const date = new Date(transaction.date)
-      const year = date.getFullYear()
-      if (year !== currentYear) return
-
-      const month = MONTH_NAMES[date.getMonth()]
-
-      if (!summary[month]) {
-        summary[month] = { month, income: 0, expense: 0 }
+      const [year, month, day] = transaction.date.split("-")
+      const date = new Date(Date.UTC(year, month - 1, day, 12))
+  
+      if (date.getFullYear() !== currentYear) return
+  
+      const monthName = MONTH_NAMES[date.getMonth()]
+  
+      if (!summary[monthName]) {
+        summary[monthName] = { month: monthName, income: 0, expense: 0 }
       }
-
+  
       if (transaction.type === "income") {
-        summary[month].income += Number(transaction.value)
+        summary[monthName].income += Number(transaction.value)
       } else if (transaction.type === "expense") {
-        summary[month].expense += Number(transaction.value)
+        summary[monthName].expense += Number(transaction.value)
       }
     })
-
+  
     const orderedChartData = MONTH_NAMES
       .filter((month) => summary[month])
       .map((month) => summary[month])
-
+  
     setChartData(orderedChartData)
-  }
+    console.log(orderedChartData)
+  }  
 
   function calculateMonthlyTotals(transactions) {
     const now = new Date()
@@ -124,5 +136,6 @@ export default function useHome() {
     totalExpense,
     totalBalance,
     goals,
+    chartConfig,
   }
 }
