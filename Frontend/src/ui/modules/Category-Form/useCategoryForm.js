@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import { useNavigate, useParams  } from "react-router"
-import { useAuthorization } from "../../../contexts/authorization.context"
+import { useAuthorization } from "@/contexts/authorization.context"
+import { useCategoryStore } from "@/ui/stores/categories.store"
 
 export default function useCategoryForm() {
   const [errors, setErrors] = useState({})
@@ -8,7 +9,8 @@ export default function useCategoryForm() {
     name: "",
     color: "",
   })
-
+  
+  const { addCategory, updateCategory } = useCategoryStore()
   const { token } = useAuthorization()
   const navigate = useNavigate()
   const { id } = useParams()
@@ -62,6 +64,12 @@ export default function useCategoryForm() {
         if (!response.ok) throw new Error("Error saving category")
 
         const data = await response.json()
+        if (id) {
+          updateCategory(data)
+        } else {
+          addCategory(data)
+        }
+
         if (!Array.isArray(data)) {
           setErrors({})
           navigate(-1, {
