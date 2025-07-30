@@ -10,13 +10,11 @@ import TransactionForm from "./ui/modules/Transaction-Form/transaction-form.view
 import GoalForm from "./ui/modules/Goal-Form/goal-form.view"
 import CategoryForm from "./ui/modules/Category-Form/category-form.view"
 import Transactions from "./ui/modules/Transaction/transactions.view"
+import Goals from "./ui/modules/Goals/goals.view"
 
 export const router = createBrowserRouter([
   {
-    element: 
-      <ProtectedRoute>
-        <PublicTemplate />
-      </ProtectedRoute>,
+    element: <PublicTemplate />,
     children: [
       {
         path: "/login",
@@ -63,7 +61,7 @@ export const router = createBrowserRouter([
       // Goals
       {
         path: "/goals",
-        element: <BuildScreen />
+        element: <Goals />
       },
       {
         path: "/create-goal",
