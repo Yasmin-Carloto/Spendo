@@ -120,6 +120,9 @@ export default function useTransactionForm() {
       ...prev,
       [name]: value,
     }))
+
+    console.log(name)
+    console.log(value)
   }
 
   async function submitTransaction(event) {
@@ -145,7 +148,6 @@ export default function useTransactionForm() {
 
         const saved = await response.json()
 
-        // Atualiza store
         if (id) {
           updateTransaction(saved)
         } else {

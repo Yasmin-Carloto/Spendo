@@ -81,26 +81,29 @@ export default function useTransactions() {
 
   const filteredTransactions = useMemo(() => {
     return transactions.filter((transaction) => {
+      const [year, month, day] = transaction.date.split("-")
+      const date = new Date(Date.UTC(year, month - 1, day, 12))
+  
       const matchesMonth = selectedMonth
-        ? new Date(transaction.date).toLocaleString("pt-BR", { month: "long" }).toLowerCase() === selectedMonth.toLowerCase()
+        ? date.toLocaleString("pt-BR", { month: "long" }).toLowerCase() === selectedMonth.toLowerCase()
         : true
-
+  
       const matchesYear = selectedYear
-        ? transaction.date.startsWith(selectedYear)
+        ? year === selectedYear
         : true
-
+  
       const matchesType = selectedType
         ? transaction.type === selectedType
         : true
-
+  
       const category = getCategoryById(transaction.categoryId)
       const matchesCategory = selectedCategory
         ? category?.name === selectedCategory
         : true
-
+  
       return matchesMonth && matchesYear && matchesType && matchesCategory
     })
-  }, [transactions, selectedMonth, selectedYear, selectedType, selectedCategory])
+  }, [transactions, selectedMonth, selectedYear, selectedType, selectedCategory])  
 
   function formatDate(dateString) {
     if (!dateString) return ""
@@ -157,20 +160,21 @@ export default function useTransactions() {
 
   function extractAllMonths() {
     const monthSet = new Set()
-
+  
     transactions.forEach((transaction) => {
-      const date = new Date(transaction.date)
+      const [year, month, day] = transaction.date.split("-")
+      const date = new Date(Date.UTC(year, month - 1, day, 12))
       const monthName = date.toLocaleString("pt-BR", { month: "long" })
       const capitalized = monthName.charAt(0).toUpperCase() + monthName.slice(1)
       monthSet.add(capitalized)
     })
-
+  
     const allMonths = Array.from(monthSet).sort((a, b) => {
       const dateA = new Date(`01 ${a} 2000`)
       const dateB = new Date(`01 ${b} 2000`)
       return dateA - dateB
     })
-
+  
     setMonths(allMonths)
   }
 
