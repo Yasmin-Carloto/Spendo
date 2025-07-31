@@ -11,6 +11,8 @@ import GoalForm from "./ui/modules/Goal-Form/goal-form.view"
 import CategoryForm from "./ui/modules/Category-Form/category-form.view"
 import Transactions from "./ui/modules/Transaction/transactions.view"
 import Goals from "./ui/modules/Goals/goals.view"
+import AboutUs from "./ui/modules/About-Us/about-us.view"
+import FAQ from "./ui/modules/FAQ/faq.view"
 
 export const router = createBrowserRouter([
   {
@@ -76,6 +78,11 @@ export const router = createBrowserRouter([
         path: "/historic",
         element: <BuildScreen />
       },
+      // Shopping Habits
+      {
+        path: "/habits",
+        element: <BuildScreen />
+      },
       // Categories
       {
         path: "/create-category",
@@ -88,12 +95,12 @@ export const router = createBrowserRouter([
       // FAQ
       {
         path: "/faq",
-        element: <BuildScreen />
+        element: <FAQ />
       },
       // About us
       {
         path: "/about-us",
-        element: <BuildScreen />
+        element: <AboutUs />
       },
       // Profile
       {
