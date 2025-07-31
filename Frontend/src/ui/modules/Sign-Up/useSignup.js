@@ -18,7 +18,6 @@ export default function useSignup() {
     }
 
     async function submitSignup(event) {
-        removeToken()
         event.preventDefault()
         const allErrors = verifyErrors()
 
