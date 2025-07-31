@@ -26,50 +26,12 @@ export default function Goals() {
           const percentage = Math.floor((goal.moneyCollected / goal.moneyToCollect) * 100)
 
           return (
-            // <div
-            //   key={goal.id}
-            //   className="bg-zinc-100 rounded-xl shadow p-4 w-full sm:w-[300px] flex flex-col gap-2"
-            // >
-            //   <div className="flex justify-between items-start">
-            //     <div className="flex flex-col">
-            //       <h3 className="text-lg font-bold">{goal.title}</h3>
-            //       <span className="text-sm text-zinc-600">Até {goal.finalDate}</span>
-            //     </div>
-            //     <span className="text-sm font-bold text-green-500">{percentage}%</span>
-            //   </div>
-
-            //   <div className="w-full mt-2">
-            //     <p className="text-sm">
-            //       <span className="text-green-600 font-medium">
-            //         R$ {goal.moneyToCollect.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
-            //       </span>{" "}
-            //       concluídos
-            //     </p>
-
-            //     <Progress value={percentage} />
-
-            //     <p className="text-right text-sm mt-1">
-            //       de{" "}
-            //       <span className="font-bold">
-            //         R$ {goal.moneyToCollect.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
-            //       </span>
-            //     </p>
-            //   </div>
-
-            //   <div className="flex justify-between items-center mt-2">
-            //     <Button variant="outline" onClick={() => goToEditGoal(goal.id)}>
-            //       Editar
-            //     </Button>
-            //     <Button variant="destructive" onClick={() => openDeleteDialog(goal.id)}>
-            //       Excluir
-            //     </Button>
-            //   </div>
-            // </div>
             <GoalCard 
                 finalDate={goal.finalDate}
                 goToEditGoal={goToEditGoal}
                 goalId={goal.id}
                 moneyToCollect={goal.moneyToCollect}
+                moneyCollected={goal.moneyCollected}
                 openDeleteDialog={openDeleteDialog}
                 percentage={percentage}
                 title={goal.title}
