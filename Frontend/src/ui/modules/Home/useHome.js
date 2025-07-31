@@ -41,12 +41,12 @@ export default function useHome() {
             Authorization: `Bearer ${token}`,
           },
         })
-        if (!response.ok) throw new Error("Erro ao buscar transações")
+        if (!response.ok) throw new Error("Error searching transactions")
 
         const data = await response.json()
         setTransactions(data.transactions || [])
       } catch (err) {
-        console.error("Erro ao carregar transações:", err)
+        console.error("Error loading transactions:", err)
       }
     }
 
@@ -58,25 +58,25 @@ export default function useHome() {
             Authorization: `Bearer ${token}`,
           },
         })
-        if (!response.ok) throw new Error("Erro ao buscar metas")
+        if (!response.ok) throw new Error("Error searching goals")
 
         const data = await response.json()
         setGoals(data || [])
       } catch (err) {
-        console.error("Erro ao carregar metas:", err)
+        console.error("Error loading goals", err)
       }
     }
 
-    if (!transactions || transactions.length === 0) {
+    if (transactions.length <= 0) {
       fetchTransactions()
-    } else {
-      generateChart(transactions)
-      calculateMonthlyTotals(transactions)
     }
 
-    if (!goals || goals.length === 0) {
+    if (goals.length <= 0) {
       fetchGoals()
     }
+
+    generateChart(transactions)
+    calculateMonthlyTotals(transactions)
     setActiveTab(sidebarMenuItems[0].title)
   }, [transactions, token])
 
@@ -108,7 +108,6 @@ export default function useHome() {
       .map((month) => summary[month])
   
     setChartData(orderedChartData)
-    console.log(orderedChartData)
   }  
 
   function calculateMonthlyTotals(transactions) {

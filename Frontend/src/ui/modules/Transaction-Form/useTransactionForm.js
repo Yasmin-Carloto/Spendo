@@ -120,9 +120,6 @@ export default function useTransactionForm() {
       ...prev,
       [name]: value,
     }))
-
-    console.log(name)
-    console.log(value)
   }
 
   async function submitTransaction(event) {
