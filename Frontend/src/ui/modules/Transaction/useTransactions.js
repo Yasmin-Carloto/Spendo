@@ -150,7 +150,7 @@ export default function useTransactions() {
 
       removeTransaction(selectedTransactionIdToDelete)
     } catch (error) {
-      console.error("Erro ao excluir transação:", error)
+      console.error("Error removing transaction:", error)
     } finally {
       closeDeleteDialog()
     }

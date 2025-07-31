@@ -52,7 +52,7 @@ export default function useLogin() {
                         allErrors.user = "Os dados desse usuário estão inválidos!"
                     }
                     setErrors(allErrors)
-                    throw new Error("Erro ao fazer o login!")
+                    throw new Error("Error loging in!")
                 }
 
                 saveToken(data.token)

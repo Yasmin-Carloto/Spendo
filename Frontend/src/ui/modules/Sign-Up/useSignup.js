@@ -11,13 +11,14 @@ export default function useSignup() {
         passwordConfirmation: ""
     })
     let navigate = useNavigate()
-    const { saveToken } = useAuthorization()
+    const { saveToken, removeToken } = useAuthorization()
 
     function goToLogin() {
         navigate("/login")
     }
 
     async function submitSignup(event) {
+        removeToken()
         event.preventDefault()
         const allErrors = verifyErrors()
 
@@ -43,7 +44,7 @@ export default function useSignup() {
                         allErrors.user = "Usuário já está cadastrado!"
                         setErrors(allErrors)
                     }
-                    throw new Error("Erro ao cadastrar!")
+                    throw new Error("Error signing up!")
                 }
 
                 saveToken(data.token)
