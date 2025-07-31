@@ -53,7 +53,7 @@ export default function useFAQ() {
         {
             question: "Como recebo dicas personalizadas?",
             answer:
-            'Na aba "Hábitos de Consumo", o Spendo analisa seu histórico de gastos e metas para sugerir ações que ajudem a melhorar sua saúde financeira.',
+            '(Feature a ser implementada) Na aba "Hábitos de Consumo", o Spendo analisa seu histórico de gastos e metas para sugerir ações que ajudem a melhorar sua saúde financeira.',
         },
         {
             question: "Como posso entrar em contato com suporte?",
