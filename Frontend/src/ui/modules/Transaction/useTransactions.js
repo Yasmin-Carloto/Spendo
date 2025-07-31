@@ -109,12 +109,6 @@ export default function useTransactions() {
     })
   }, [transactions, selectedMonth, selectedYear, selectedType, selectedCategory])  
 
-  function formatDate(dateString) {
-    if (!dateString) return ""
-    const [year, month, day] = dateString.split("-")
-    return `${day}/${month}/${year}`
-  }
-
   function getCategoryById(id) {
     return categories.find(category => String(category.id) === String(id))
   }
@@ -198,7 +192,6 @@ export default function useTransactions() {
     goToAddNewTransaction,
     categories,
     transactionTypes,
-    formatDate,
     getCategoryById,
     goToEditTransaction,
     openDeleteDialog,

@@ -25,13 +25,13 @@ import { Button } from "@/components/ui/button"
 import useTransactions from "./useTransactions"
 import TransactionCard from "./components/transaction-card/transaction-card"
 import TransactionTableRow from "./components/table-row/transaction-table-row"
+import formatDate from "@/ui/utils/date-formatter"
 
 export default function Transactions() {
   const { 
     goToAddNewTransaction, 
     categories, 
     transactionTypes,
-    formatDate,
     getCategoryById,
     goToEditTransaction,
     openDeleteDialog,
