@@ -11,16 +11,16 @@ import useHome from "./useHome"
 import GoalCard from "./components/goal-card/goal-card"
 
 export default function Home() {
-    const { chartData, totalIncome, totalExpense, totalBalance, goals, chartConfig  } = useHome()
+    const { currentMonth, chartData, totalIncome, totalExpense, totalBalance, goals, chartConfig  } = useHome()
 
     return (
         <div className="max-w-6xl mx-auto p-4 space-y-10">
-            <h2 className="text-3xl font-bold text-main-green">Transações</h2>
+            <h2 className="text-3xl font-bold text-main-green">Dashboard</h2>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <HomeCard color="#00a63e" label="Entradas do Mês" value={totalIncome} />
-                <HomeCard color="#e7000b" label="Saídas do Mês" value={totalExpense} />
-                <HomeCard color="#9810fa" label="Saldo" value={totalBalance} />
+                <HomeCard color="#00a63e" label={`Entradas do Mês de ${currentMonth}`} value={totalIncome} />
+                <HomeCard color="#e7000b" label={`Saídas do Mês de ${currentMonth}`} value={totalExpense} />
+                <HomeCard color="#9810fa" label={`Saldo do mês ${currentMonth}`} value={totalBalance} />
             </div>
 
             <div className="flex flex-col lg:flex-row justify-between gap-1 w-full">
