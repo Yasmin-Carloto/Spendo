@@ -124,8 +124,12 @@ export default function useGoalForm() {
 
     if (!goalsFormFields.finalDate) {
       allErrors.finalDate = "Data final é obrigatória."
-    } else if (goalsFormFields.finalDate < minFinalDate) {
-      allErrors.finalDate = "A data final deve ser pelo menos 7 dias após hoje."
+    } 
+
+    if(!id) {
+      if (goalsFormFields.finalDate < minFinalDate) {
+        allErrors.finalDate = "A data final deve ser pelo menos 7 dias após hoje."
+      }
     }
 
     if (!goalsFormFields.moneyToCollect || Number(goalsFormFields.moneyToCollect) <= 0) {
