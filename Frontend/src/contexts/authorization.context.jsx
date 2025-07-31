@@ -13,14 +13,14 @@ export function AuthorizationProvider({ children }) {
       setToken(savedToken)
     }
     setIsLoading(false)
-  }, [token])
+  }, [])
 
   function saveToken(newToken) {
     setToken(newToken)
     localStorage.setItem('spendo-token', newToken)
   }
 
-  const removeToken = () => {
+  function removeToken() {
     setToken(null)
     localStorage.removeItem('spendo-token')
   }
