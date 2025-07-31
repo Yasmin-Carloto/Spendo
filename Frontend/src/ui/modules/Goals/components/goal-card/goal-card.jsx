@@ -6,6 +6,7 @@ export default function GoalCard({
     finalDate, 
     percentage, 
     moneyToCollect, 
+    moneyCollected,
     goToEditGoal, 
     openDeleteDialog,
     goalId,
@@ -19,13 +20,16 @@ export default function GoalCard({
                   <h3 className="text-lg font-bold">{title}</h3>
                   <span className="text-sm text-zinc-600">Até {finalDate}</span>
                 </div>
+                {percentage == 100 ? (
+                  <span className="text-sm font-bold text-green-500">Meta concluída!</span>
+                ) : (
                 <span className="text-sm font-bold text-green-500">{percentage}%</span>
             </div>
 
             <div className="w-full mt-2">
                 <p className="text-sm">
                   <span className="text-green-600 font-medium">
-                    R$ {moneyToCollect.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
+                    R$ {moneyCollected.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
                   </span>{" "}
                   concluídos
                 </p>
