@@ -25,7 +25,7 @@ export default function Home() {
 
             <div className="flex flex-col lg:flex-row justify-between gap-1 w-full">
                 <div className="flex flex-col lg:w-1/2 w-full">
-                    <h2 className="text-lg font-bold mb-4">Entradas e Saídas</h2>
+                    <h2 className="text-lg font-bold mb-4">Resumo das entradas e saídas do ano separadas por mês</h2>
                     <div className="md:col-span-2">
                         {chartData.length > 0 ? (
                             <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
@@ -52,18 +52,24 @@ export default function Home() {
                 <div className="p-2 shadow-sm lg:w-1/2 w-full">
                     <h2 className="text-lg font-bold mb-4">Metas</h2>
                     {goals.length > 0 ? (
-                        goals.slice(0, 3).map((goal) => (
-                            <GoalCard 
-                                key={goal.id}
-                                title={goal.title}
-                                partialValue={goal.moneyCollected}
-                                totalValue={goal.moneyToCollect}
-                                percentage={Math.min(100, (goal.moneyCollected / goal.moneyToCollect) * 100)}
-                            />
-                        ))
-                    ) : (
-                        <p>Ainda não existe nenhuma meta criada.</p>
-                    )}
+                        goals
+                            .filter((goal) => {
+                                const percentage = (goal.moneyCollected / goal.moneyToCollect) * 100
+                                return percentage < 100
+                            })
+                            .slice(0, 3)
+                            .map((goal) => (
+                                <GoalCard 
+                                    key={goal.id}
+                                    title={goal.title}
+                                    partialValue={goal.moneyCollected}
+                                    totalValue={goal.moneyToCollect}
+                                    percentage={Math.min(100, (goal.moneyCollected / goal.moneyToCollect) * 100)}
+                                />
+                            ))
+                        ) : (
+                            <p>Ainda não existe nenhuma meta criada.</p>
+                        )}
                 </div>
             </div>
         </div>
