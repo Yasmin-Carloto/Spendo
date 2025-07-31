@@ -1,11 +1,10 @@
-import { useState } from "react"
-import sidebarMenuItems from "@/ui/utils/sidebar-items"
+import { useSidebarStore } from "@/ui/stores/side-bar.store"
 import { useAuthorization } from "@/contexts/authorization.context"
 import { useNavigate } from "react-router-dom"
 
 export default function useSidebar() {
-    const [activeTab, setActiveTab] = useState(sidebarMenuItems[0].title)
     const { removeToken } = useAuthorization()
+    const { activeTab, setActiveTab} = useSidebarStore()
     const navigate = useNavigate()
 
     function logout() {

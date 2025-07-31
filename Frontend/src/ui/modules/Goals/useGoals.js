@@ -2,12 +2,15 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router"
 import { useAuthorization } from "@/contexts/authorization.context"
 import { useGoalStore } from "@/ui/stores/goals.store"
+import sidebarMenuItems from "@/ui/utils/sidebar-items"
+import { useSidebarStore } from "@/ui/stores/side-bar.store"
 
 export default function useGoals() {
   const [selectedGoalIdToDelete, setSelectedGoalIdToDelete] = useState(null)
   const navigate = useNavigate()
   const { token } = useAuthorization()
   const { goals, setGoals, removeGoal } = useGoalStore()
+  const setActiveTab = useSidebarStore((state) => state.setActiveTab)
 
   useEffect(() => {
     async function getAllGoals() {
@@ -30,6 +33,7 @@ export default function useGoals() {
     }
 
     getAllGoals()
+    setActiveTab(sidebarMenuItems[2].title)
   }, [token])
 
   function goToCreateGoal() {
@@ -50,7 +54,6 @@ export default function useGoals() {
 
   async function confirmDeleteGoal() {
     if (!selectedGoalIdToDelete) return
-    console.log(selectedGoalIdToDelete)
     try {
       await fetch(`${import.meta.env.VITE_SPENDO_API_URL_BASE}/goals/${selectedGoalIdToDelete}`, {
         method: "DELETE",
@@ -72,7 +75,6 @@ export default function useGoals() {
     goals,
     goToCreateGoal,
     goToEditGoal,
-    confirmDeleteGoal,
     confirmDeleteGoal,
     selectedGoalIdToDelete,
     openDeleteDialog,

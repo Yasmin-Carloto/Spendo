@@ -2,6 +2,8 @@ import { useEffect, useState } from "react"
 import { useTransactionStore } from "@/ui/stores/transactions.store"
 import { useGoalStore } from "@/ui/stores/goals.store"
 import { useAuthorization } from "@/contexts/authorization.context"
+import sidebarMenuItems from "@/ui/utils/sidebar-items"
+import { useSidebarStore } from "@/ui/stores/side-bar.store"
 
 const MONTH_NAMES = [
   "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
@@ -12,11 +14,13 @@ export default function useHome() {
   const { token } = useAuthorization()
   const { transactions, setTransactions } = useTransactionStore()
   const { goals, setGoals } = useGoalStore()
+  const setActiveTab = useSidebarStore((state) => state.setActiveTab)
 
   const [chartData, setChartData] = useState([])
   const [totalIncome, setTotalIncome] = useState(0)
   const [totalExpense, setTotalExpense] = useState(0)
   const [totalBalance, setTotalBalance] = useState(0)
+  const currentMonth = MONTH_NAMES[new Date().getMonth()]
   const chartConfig = {
     income: {
       label: "Entrada",
@@ -73,6 +77,7 @@ export default function useHome() {
     if (!goals || goals.length === 0) {
       fetchGoals()
     }
+    setActiveTab(sidebarMenuItems[0].title)
   }, [transactions, token])
 
   function generateChart(transactions) {
@@ -131,6 +136,7 @@ export default function useHome() {
   }
 
   return {
+    currentMonth,
     chartData,
     totalIncome,
     totalExpense,

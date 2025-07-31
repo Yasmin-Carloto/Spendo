@@ -3,6 +3,8 @@ import { useNavigate } from "react-router"
 import { useAuthorization } from "@/contexts/authorization.context"
 import { useCategoryStore } from "@/ui/stores/categories.store"
 import { useTransactionStore } from "@/ui/stores/transactions.store"
+import sidebarMenuItems from "@/ui/utils/sidebar-items"
+import { useSidebarStore } from "@/ui/stores/side-bar.store"
 
 export default function useTransactions() {
   const [years, setYears] = useState([])
@@ -19,6 +21,7 @@ export default function useTransactions() {
 
   const { categories, setCategories } = useCategoryStore()
   const { transactions, setTransactions, removeTransaction } = useTransactionStore()
+  const setActiveTab = useSidebarStore((state) => state.setActiveTab)
 
   const transactionTypes = [
     { id: 1, type: "expense" },
@@ -70,6 +73,7 @@ export default function useTransactions() {
     if (categories.length === 0) {
       getAllCategories()
     }
+    setActiveTab(sidebarMenuItems[1].title)
   }, [token])
 
   useEffect(() => {
