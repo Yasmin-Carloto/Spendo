@@ -13,6 +13,7 @@ import Transactions from "./ui/modules/Transaction/transactions.view"
 import Goals from "./ui/modules/Goals/goals.view"
 import AboutUs from "./ui/modules/About-Us/about-us.view"
 import FAQ from "./ui/modules/FAQ/faq.view"
+import Profile from "./ui/modules/Profile/profile.view"
 
 export const router = createBrowserRouter([
   {
@@ -105,7 +106,7 @@ export const router = createBrowserRouter([
       // Profile
       {
         path: "/profile",
-        element: <BuildScreen />
+        element: <Profile />
       },
     ]
   },
