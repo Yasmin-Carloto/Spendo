@@ -47,6 +47,7 @@ export default function FixedSidebar() {
         </SidebarMenu>
 
         <Button
+          className="my-12"
           onClick={() => logout()}
         >
           <LogOut size={16} />
