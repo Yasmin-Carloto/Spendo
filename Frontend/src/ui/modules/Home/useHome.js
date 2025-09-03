@@ -73,6 +73,7 @@ export default function useHome() {
 
     if (goals.length <= 0) {
       fetchGoals()
+      filterGoals()
     }
 
     generateChart(transactions)
@@ -134,13 +135,23 @@ export default function useHome() {
     setTotalBalance(income - expense)
   }
 
+  function filterGoals() {
+    const filteredGoals = goals
+                            .filter((goal) => {
+                              const percentage = (goal.moneyCollected / goal.moneyToCollect) * 100
+                              return percentage < 100
+                            })
+                            .slice(0, 3)
+    return filteredGoals
+  }
+
   return {
     currentMonth,
     chartData,
     totalIncome,
     totalExpense,
     totalBalance,
-    goals,
+    goals: filterGoals(),
     chartConfig,
   }
 }

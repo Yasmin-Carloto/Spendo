@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { useNavigate } from "react-router"
 import { useAuthorization } from "@/contexts/authorization.context"
+import { toast } from "sonner"
 
 export default function useLogin() {
     const [errors, setErrors] = useState({})
@@ -59,7 +60,8 @@ export default function useLogin() {
                 setErrors({})
                 navigate("/")
             } catch (error) {
-                console.error(error)
+                toast.error("Não foi possível fazer login.")
+                console.error("Error loging in:", error)
             }
 
         } else {

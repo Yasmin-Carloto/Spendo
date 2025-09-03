@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react"
-import { useNavigate, useParams  } from "react-router"
 import { useAuthorization } from "@/contexts/authorization.context"
 import { useCategoryStore } from "@/ui/stores/categories.store"
+import { toast } from "sonner"
 
-export default function useCategoryForm() {
+export default function useCategoryForm(id, onClose) {
   const [errors, setErrors] = useState({})
   const [categoryFormFields, setCategoryFormFields] = useState({
     name: "",
@@ -12,8 +12,6 @@ export default function useCategoryForm() {
   
   const { addCategory, updateCategory } = useCategoryStore()
   const { token } = useAuthorization()
-  const navigate = useNavigate()
-  const { id } = useParams()
 
   useEffect(() => {
     async function initForm() {
@@ -64,20 +62,17 @@ export default function useCategoryForm() {
         if (!response.ok) throw new Error("Error saving category")
 
         const data = await response.json()
+        toast.success(`Categoria ${id ? "editada" : "criada"} com sucesso.`)
         if (id) {
           updateCategory(data)
         } else {
           addCategory(data)
         }
 
-        if (!Array.isArray(data)) {
-          setErrors({})
-          navigate(-1, {
-            fallback: '/'
-          })
-        }
+        onClose()
       } catch (error) {
-        throw new Error(error)
+        toast.error(`Não foi possível ${id ? "editar" : "criar"} categoria.`)
+        console.error("Error adding new category:", error)
       }
     } else {
       setErrors(allErrors)

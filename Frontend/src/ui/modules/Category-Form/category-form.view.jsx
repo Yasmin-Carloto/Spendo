@@ -3,24 +3,27 @@ import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import useCategoryForm from "./useCategoryForm"
 
-export default function CategoryForm() {
-  const { errors, setFormsField, submitNewCategory, categoryFormFields } = useCategoryForm()
+export default function CategoryForm({ id, onClose }) {
+  const { errors, setFormsField, submitNewCategory, categoryFormFields } = useCategoryForm(id, onClose)
 
   return (
-    <div className="max-w-2xl mx-auto mt-10 px-4">
-      <h2 className="text-3xl font-bold text-main-green">Nova Categoria</h2>
+    <div>
+      <h2 className="text-xl font-bold text-main-green">Nova Categoria</h2>
 
-      <form className="space-y-6" onSubmit={(event) => submitNewCategory(event)}>
+      <form className="space-y-6">
         <div className="flex flex-col gap-4 items-end my-8">
           <div className="w-full">
-            <Input
-              type="text"
-              name="name"
-              placeholder="Nome"
-              className="w-full"
-              onChange={(event) => setFormsField(event)}
-              value={categoryFormFields.name}
-            />
+            <div className="flex flex-col gap-1 w-full">
+              <Label className="text-title-1 text-base">Título</Label>
+              <Input
+                type="text"
+                name="name"
+                placeholder="Ex. Lazer"
+                className="w-full"
+                onChange={(event) => setFormsField(event)}
+                value={categoryFormFields.name}
+              />
+            </div>
             {errors.name &&                     
               <p className="text-sm text-destructive py-1">{errors.name}</p>
             }
@@ -28,7 +31,7 @@ export default function CategoryForm() {
 
           <div className="w-full">
             <div className="flex flex-col gap-1 w-full">
-              <Label className="text-gray-700">Cor</Label>
+              <Label className="text-title-1 text-base">Cor</Label>
               <Input
                 type="color"
                 name="color"
@@ -41,16 +44,22 @@ export default function CategoryForm() {
             }
           </div>
         </div>
-
-        <div className="flex justify-center">
-          <Button
-            type="submit"
-            className="bg-main-green text-white px-8 py-2 rounded-full hover:bg-accent-green transition"
-          >
-            Salvar
-          </Button>
-        </div>
       </form>
+
+      <div className="flex justify-between gap-6">
+        <Button
+          type="submit"
+          onClick={(event) => submitNewCategory(event)}
+        >
+          Salvar
+        </Button>
+        <Button
+          variant="outline"
+          onClick={onClose}
+        >
+          Cancelar
+        </Button>
+      </div>
     </div>
   )
 }

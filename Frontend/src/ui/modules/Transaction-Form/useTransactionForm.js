@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router"
+import { toast } from "sonner"
 import { useAuthorization } from "@/contexts/authorization.context"
 import { useTransactionStore } from "@/ui/stores/transactions.store"
 import { useCategoryStore } from "@/ui/stores/categories.store"
@@ -11,10 +12,15 @@ export default function useTransactionForm() {
     type: "",
     date: "",
     categoryId: null,
+    installments: null,
   })
   const [errors, setErrors] = useState({})
   const [selectedCategoryIdToDelete, setSelectedCategoryIdToDelete] = useState(null)
-
+  const [openCalendar, setOpenCalendar] = useState(false)
+  const [categoryModalOpen, setCategoryModalOpen] = useState(false)
+  const [editingCategoryId, setEditingCategoryId] = useState(null)
+  const [isInInstallments, setIsInInstallments] = useState(false)
+  
   const { token } = useAuthorization()
   const navigate = useNavigate()
   const { id } = useParams()
@@ -45,10 +51,11 @@ export default function useTransactionForm() {
           if (!response.ok) throw new Error("Error searching transaction")
 
           const transaction = await response.json()
+          console.log(transaction)
 
           setTransactionFormFields({
             title: transaction.title,
-            value: transaction.value,
+            value: transaction.groupId ? transaction.totalValue : transaction.value,
             type: transaction.type,
             date: transaction.date,
             categoryId: transaction.categoryId,
@@ -64,14 +71,11 @@ export default function useTransactionForm() {
 
   useEffect(() => {
     getAllCategories()
-  }, [token])
+  }, [token, editingCategoryId])
 
-  function goToAddCategory() {
-    navigate("/create-category")
-  }
-
-  function goToEditCategory(id) {
-    navigate(`/edit-category/${id}`)
+  function openCategoryModal(categoryId) {
+    setCategoryModalOpen(!categoryModalOpen)
+    setEditingCategoryId(categoryId)
   }
 
   async function removeCategoryById(id) {
@@ -84,7 +88,9 @@ export default function useTransactionForm() {
         },
       })
       removeCategory(id)
+      toast.success("Categoria excluída com sucesso.")
     } catch (error) {
+      toast.error("Não foi possível exluir a categoria.")
       console.error("Error removing category:", error)
     }
   }
@@ -145,6 +151,7 @@ export default function useTransactionForm() {
 
         const saved = await response.json()
 
+        toast.success(`Transação ${id ? "editada" : "criada"} com sucesso.`)
         if (id) {
           updateTransaction(saved)
         } else {
@@ -153,6 +160,7 @@ export default function useTransactionForm() {
 
         navigate("/transactions")
       } catch (err) {
+        toast.error(`Não foi possível ${id ? "editar" : "criar"} transação.`)
         console.error("Error saving transaction:", err)
       }
     } else {
@@ -197,13 +205,16 @@ export default function useTransactionForm() {
       allErrors.categoryId = "Selecione uma categoria."
     }
 
+    if(isInInstallments && transactionFormFields.installments <= 0) {
+      allErrors.installments = "Digite um valor válido de parcelamento"
+    }
+
     return allErrors
   }
 
   return {
     categories,
-    goToAddCategory,
-    goToEditCategory,
+    openCategoryModal,
     transactionTypes,
     removeCategory: removeCategoryById,
     setSelectedCategoryIdToDelete,
@@ -214,5 +225,13 @@ export default function useTransactionForm() {
     errors,
     transactionFormFields,
     selectedCategory,
+    openCalendar,
+    setOpenCalendar,
+    categoryModalOpen,
+    setCategoryModalOpen,
+    editingCategoryId,
+    setIsInInstallments,
+    isInInstallments,
+    id,
   }
 }

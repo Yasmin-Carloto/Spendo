@@ -4,6 +4,7 @@ import { useAuthorization } from "@/contexts/authorization.context"
 import { useGoalStore } from "@/ui/stores/goals.store"
 import sidebarMenuItems from "@/ui/utils/sidebar-items"
 import { useSidebarStore } from "@/ui/stores/side-bar.store"
+import { toast } from "sonner"
 
 export default function useGoals() {
   const [selectedGoalIdToDelete, setSelectedGoalIdToDelete] = useState(null)
@@ -64,7 +65,9 @@ export default function useGoals() {
       })
 
       removeGoal(selectedGoalIdToDelete)
+      toast.success("Meta excluída com sucesso.")
     } catch (err) {
+      toast.error("Não foi possível excluir meta.")
       console.error("Error removing goal", err)
     } finally {
       closeDeleteDialog()

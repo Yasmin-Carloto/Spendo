@@ -2,17 +2,19 @@ import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router"
 import { useAuthorization } from "@/contexts/authorization.context"
 import { useGoalStore } from "@/ui/stores/goals.store"
+import { toast } from "sonner"
 
 export default function useGoalForm() {
   const [errors, setErrors] = useState({})
   const [, setIsLoading] = useState(true)
+  const [openCalendar, setOpenCalendar] = useState(false)
 
   const [goalsFormFields, setGoalsFormFields] = useState({
     title: "",
     beginDate: "",
     finalDate: "",
-    moneyToCollect: 0,
-    moneyCollected: 0
+    moneyToCollect: "",
+    moneyCollected: 1
   })
 
   const { token } = useAuthorization()
@@ -56,7 +58,7 @@ export default function useGoalForm() {
         setGoalsFormFields((prev) => ({
           ...prev,
           beginDate: today.toISOString().split("T")[0],
-          moneyCollected: 0,
+          moneyCollected: 0
         }))
       }
 
@@ -89,6 +91,7 @@ export default function useGoalForm() {
 
         const data = await response.json()
 
+        toast.success(`Meta ${id ? "editada" : "criada"} com sucesso.`)
         if (id) {
           updateGoal(data)
         } else {
@@ -96,8 +99,9 @@ export default function useGoalForm() {
         }
 
         navigate("/goals")
-      } catch (err) {
-        console.error(err)
+      } catch (error) {
+        toast.error(`Não foi possível ${id ? "editar" : "criar"} meta.`)
+        console.error("Error adding new goal:", error)
       }
     } else {
       setErrors(allErrors)
@@ -130,6 +134,15 @@ export default function useGoalForm() {
       if (goalsFormFields.finalDate < minFinalDate) {
         allErrors.finalDate = "A data final deve ser pelo menos 7 dias após hoje."
       }
+    } else {
+      const beginDate = new Date(goalsFormFields.beginDate + "T00:00:00")
+      const minFinalDateFromBegin = new Date(beginDate.getTime() + 7 * 24 * 60 * 60 * 1000)
+                                              .toISOString()
+                                              .split("T")[0]
+
+      if (goalsFormFields.finalDate < minFinalDateFromBegin) {
+        allErrors.finalDate = "A data final deve ser pelo menos 7 dias após a data inicial."
+      }
     }
 
     if (!goalsFormFields.moneyToCollect || Number(goalsFormFields.moneyToCollect) <= 0) {
@@ -148,9 +161,10 @@ export default function useGoalForm() {
 
   return {
     errors,
-    minFinalDate,
     setFormsField,
     submitNewGoal,
-    goalsFormFields
+    goalsFormFields,
+    openCalendar,
+    setOpenCalendar,
   }
 }

@@ -2,17 +2,8 @@ import ruthImage from "@/ui/assets/ruth-image.jpg"
 import sabrinnaImage from "@/ui/assets/sabrinna-image.jpg"
 import victorImage from "@/ui/assets/victor-image.jpg"
 import yasminImage from "@/ui/assets/yasmin-image.jpg"
-import { useSidebarStore } from "@/ui/stores/side-bar.store"
-import sidebarMenuItems from "@/ui/utils/sidebar-items"
-import { useEffect } from "react"
 
 export default function useAboutUs() {
-    const setActiveTab = useSidebarStore((state) => state.setActiveTab)
-
-    useEffect(() => {
-        setActiveTab(sidebarMenuItems[6].title)
-    }, [])
-
     const teamMembers = [
         { name: "Ruth Rodrigues", image: ruthImage },
         { name: "Sabrinna Facundo", image: sabrinnaImage },

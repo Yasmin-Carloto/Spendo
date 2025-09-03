@@ -5,10 +5,10 @@ import { useCategoryStore } from "@/ui/stores/categories.store"
 import { useTransactionStore } from "@/ui/stores/transactions.store"
 import sidebarMenuItems from "@/ui/utils/sidebar-items"
 import { useSidebarStore } from "@/ui/stores/side-bar.store"
+import { toast } from "sonner"
 
 export default function useTransactions() {
   const [years, setYears] = useState([])
-  const [months, setMonths] = useState([])
 
   const [selectedMonth, setSelectedMonth] = useState("")
   const [selectedYear, setSelectedYear] = useState("")
@@ -27,6 +27,7 @@ export default function useTransactions() {
     { id: 1, type: "expense" },
     { id: 2, type: "income" },
   ]
+  const months = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
 
   useEffect(() => {
     async function getAllTransactions() {
@@ -42,7 +43,7 @@ export default function useTransactions() {
         if (!response.ok) throw new Error("Error searching transactions.")
 
         const data = await response.json()
-        const sorted = data.transactions.sort((a, b) => new Date(b.date) - new Date(a.date))
+        const sorted = data.transactions.sort((transactionOne, transactionTwo) => new Date(transactionTwo.date) - new Date(transactionOne.date))
         setTransactions(sorted)
       } catch (error) {
         console.error("Error loading transactions:", error)
@@ -74,40 +75,82 @@ export default function useTransactions() {
       getAllCategories()
     }
     setActiveTab(sidebarMenuItems[1].title)
-  }, [token])
+  }, [token, selectedTransactionIdToDelete])
 
   useEffect(() => {
     if (transactions.length > 0) {
-      extractAllMonths()
       extractAllYears()
     }
   }, [transactions])
+  //   return transactions.filter((transaction) => {
+  //     const [year, month, day] = transaction.date.split("-")
+  //     const date = new Date(Date.UTC(year, month - 1, day, 12))
+  
+  //     const matchesMonth = selectedMonth
+  //       ? date.toLocaleString("pt-BR", { month: "long" }).toLowerCase() === selectedMonth.toLowerCase()
+  //       : true
+  
+  //     const matchesYear = selectedYear
+  //       ? year === selectedYear
+  //       : true
+  
+  //     const matchesType = selectedType
+  //       ? transaction.type === selectedType
+  //       : true
+  
+  //     const category = getCategoryById(transaction.categoryId)
+  //     const matchesCategory = selectedCategory
+  //       ? category?.name === selectedCategory
+  //       : true
+  
+  //     return matchesMonth && matchesYear && matchesType && matchesCategory
+  //   })
+  // }, [transactions, selectedMonth, selectedYear, selectedType, selectedCategory])  
 
   const filteredTransactions = useMemo(() => {
+    const now = new Date()
+    const currentMonth = now.getMonth()
+    const currentYear = now.getFullYear()
+
+    const isAnyFilterActive =
+      Boolean(selectedMonth) ||
+      Boolean(selectedYear) ||
+      Boolean(selectedType) ||
+      Boolean(selectedCategory)
+
+    const getTransactionDate = (transaction) => {
+      if (Array.isArray(transaction)) {
+        transaction = transaction[0]
+      }
+      if (!transaction?.date || typeof transaction.date !== "string") return null
+      const [yearStr, monthStr, dayStr] = transaction.date.split("-")
+      return new Date(Date.UTC(Number(yearStr), Number(monthStr) - 1, Number(dayStr), 12))
+    }
+
     return transactions.filter((transaction) => {
-      const [year, month, day] = transaction.date.split("-")
-      const date = new Date(Date.UTC(year, month - 1, day, 12))
-  
-      const matchesMonth = selectedMonth
+      const date = getTransactionDate(transaction)
+      if (!date) return false
+
+      const monthMatches = selectedMonth
         ? date.toLocaleString("pt-BR", { month: "long" }).toLowerCase() === selectedMonth.toLowerCase()
-        : true
-  
-      const matchesYear = selectedYear
-        ? year === selectedYear
-        : true
-  
-      const matchesType = selectedType
+        : isAnyFilterActive ? true : date.getUTCMonth() === currentMonth
+
+      const yearMatches = selectedYear
+        ? String(date.getUTCFullYear()) === String(selectedYear)
+        : isAnyFilterActive ? true : date.getUTCFullYear() === currentYear
+
+      const typeMatches = selectedType
         ? transaction.type === selectedType
         : true
-  
+
       const category = getCategoryById(transaction.categoryId)
-      const matchesCategory = selectedCategory
+      const categoryMatches = selectedCategory
         ? category?.name === selectedCategory
         : true
-  
-      return matchesMonth && matchesYear && matchesType && matchesCategory
+
+      return monthMatches && yearMatches && typeMatches && categoryMatches
     })
-  }, [transactions, selectedMonth, selectedYear, selectedType, selectedCategory])  
+  }, [transactions, selectedMonth, selectedYear, selectedType, selectedCategory, categories])
 
   function getCategoryById(id) {
     return categories.find(category => String(category.id) === String(id))
@@ -149,37 +192,24 @@ export default function useTransactions() {
       })
 
       removeTransaction(selectedTransactionIdToDelete)
+      setSelectedTransactionIdToDelete(null)
+      toast.success("Transação excluída com sucesso.")
     } catch (error) {
+      toast.error("Não foi possível excluir a transação.")
       console.error("Error removing transaction:", error)
     } finally {
       closeDeleteDialog()
     }
   }
 
-  function extractAllMonths() {
-    const monthSet = new Set()
-  
-    transactions.forEach((transaction) => {
-      const [year, month, day] = transaction.date.split("-")
-      const date = new Date(Date.UTC(year, month - 1, day, 12))
-      const monthName = date.toLocaleString("pt-BR", { month: "long" })
-      const capitalized = monthName.charAt(0).toUpperCase() + monthName.slice(1)
-      monthSet.add(capitalized)
-    })
-  
-    const allMonths = Array.from(monthSet).sort((a, b) => {
-      const dateA = new Date(`01 ${a} 2000`)
-      const dateB = new Date(`01 ${b} 2000`)
-      return dateA - dateB
-    })
-  
-    setMonths(allMonths)
-  }
-
   function extractAllYears() {
     const yearsSet = new Set()
 
     transactions.forEach((transaction) => {
+      if (Array.isArray(transaction)) transaction = transaction[0]
+
+      if (!transaction?.date) return
+
       const [year] = transaction.date.split("-")
       yearsSet.add(year)
     })

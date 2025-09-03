@@ -1,11 +1,13 @@
-export default function HomeCard({ value, label, color }) {
+import formatToBRL from "@/ui/utils/money-formatter"
+
+export default function HomeCard({ value, label, children }) {
     return (
-        <div 
-            style={{ backgroundColor: color}}
-            className="text-white rounded-lg p-6 shadow"
-        >
-            <p className="text-2xl font-semibold">R$ {value}</p>
-            <p className="text-sm">{label}</p>
+        <div className="rounded-md p-6 shadow-md bg-background-neutral flex justify-between items-center gap-2">
+            <div>
+                <p className="text-sm font-bold text-title-1">{label}</p>
+                <p className="text-2xl font-semibold">R$ {formatToBRL(value)}</p>
+            </div>
+            {children}
         </div>
     )
 }

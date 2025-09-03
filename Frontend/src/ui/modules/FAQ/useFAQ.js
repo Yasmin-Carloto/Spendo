@@ -1,14 +1,4 @@
-import sidebarMenuItems from "@/ui/utils/sidebar-items"
-import { useEffect } from "react"
-import { useSidebarStore } from "@/ui/stores/side-bar.store"
-
 export default function useFAQ() {
-    const setActiveTab = useSidebarStore((state) => state.setActiveTab)
-    
-    useEffect(() => {
-        setActiveTab(sidebarMenuItems[5].title)
-    }, [])
-
     const questionsAndAnswers = [
         {
             question: "Como funciona o Spendo?",

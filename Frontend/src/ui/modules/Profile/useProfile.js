@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { useAuthorization } from "@/contexts/authorization.context"
 import { useSidebarStore } from "@/ui/stores/side-bar.store"
+import { toast } from "sonner"
 import sidebarMenuItems from "@/ui/utils/sidebar-items"
 
 export default function useProfile() {
@@ -9,10 +10,8 @@ export default function useProfile() {
   const [user, setUser] = useState({
     name: "",
     email: "",
-    photo: "https://via.placeholder.com/120",
   })
 
-  const [error, setError] = useState(null)
   const setActiveTab = useSidebarStore((state) => state.setActiveTab)
 
   useEffect(() => {
@@ -38,50 +37,69 @@ export default function useProfile() {
           name: data.name || "",
           email: data.email || "",
         }))
-      } catch (err) {
-        console.error("Error loading user's information.")
-        setError(err.message)
+      } catch (error) {
+        console.error("Error loading user's information.", error)
       }
     }
 
     fetchUserData()
-    setActiveTab(sidebarMenuItems[7].title)
+    setActiveTab(sidebarMenuItems[3].title)
   }, [token])
 
-  function updateField(name, value) {
-    setUser(prev => ({
-      ...prev,
-      [name]: value,
+  function setFormsField(event) {
+    const { name, value } = event.target
+
+    setUser(prevValue => ({
+      ...prevValue,
+      [name]: value
     }))
   }
 
-  function updatePhoto(base64Image) {
-    setUser(prev => ({
-      ...prev,
-      photo: base64Image,
-    }))
-  }
+  async function handleSubmit(event) {
+    event.preventDefault()
+    const allErrors = verifyErrors()
 
-  function handleFileChange(event) {
-    const file = event.target.files[0]
-    if (file) {
-      const reader = new FileReader()
-      reader.onloadend = () => {
-        updatePhoto(reader.result)
+    if (Object.keys(allErrors).length === 0) {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_SPENDO_API_URL_BASE}/users/me`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(user),
+        })
+
+        if (!response.ok) throw new Error("Error updating user's data.")
+        toast.success("Usuário atualizado com sucesso!")
+      } catch (error) {
+        console.error("Error updating user's data.", error)
+        toast.error("Erro ao tentar atualizar o usuário.")
       }
-      reader.readAsDataURL(file)
     }
   }
 
-  function handleSubmit(event) {
-    console.log("A ser implementado.")
+  function verifyErrors() {
+    const allErrors = {}
+
+    if(!user.name) {
+      allErrors.name = "O campo nome é obrigatório!"
+    } else if(user.name.length < 3) {
+      allErrors.name = "O campo nome deve ter pelo menos 3 letras."
+    }
+
+    if(!user.email) {
+      allErrors.email = "O campo email é obrigatório!"
+    } else if(!/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(user.email)) {
+      allErrors.email = "Este email é inválido!"
+    }
+
+    return allErrors
   }
 
   return {
     user,
-    error,
-    updateField,
-    handleFileChange,
+    setFormsField,
     handleSubmit,
   }
 }

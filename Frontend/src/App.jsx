@@ -14,6 +14,9 @@ import Goals from "./ui/modules/Goals/goals.view"
 import AboutUs from "./ui/modules/About-Us/about-us.view"
 import FAQ from "./ui/modules/FAQ/faq.view"
 import Profile from "./ui/modules/Profile/profile.view"
+import ForgotPassword from "./ui/modules/Forgot-Passoword/forgot-password.view"
+import RecoverPassword from "./ui/modules/Recover-Password/recover-password.view"
+import Page404 from "./ui/modules/Page-404/page404.view"
 
 export const router = createBrowserRouter([
   {
@@ -29,12 +32,16 @@ export const router = createBrowserRouter([
       },
       {
         path: "/forgot-password",
-        element: <BuildScreen />
+        element: <ForgotPassword />
       },
       {
         path: "/recover-password",
-        element: <BuildScreen />
+        element: <RecoverPassword />
       },
+      {
+        path: "*",
+        element: <Page404 />
+      }
     ]
   },
   {
@@ -73,36 +80,7 @@ export const router = createBrowserRouter([
       {
         path: "/edit-goal/:id",
         element: <GoalForm />
-      },
-      // Historic
-      {
-        path: "/historic",
-        element: <BuildScreen />
-      },
-      // Shopping Habits
-      {
-        path: "/habits",
-        element: <BuildScreen />
-      },
-      // Categories
-      {
-        path: "/create-category",
-        element: <CategoryForm />
-      },
-      {
-        path: "/edit-category/:id",
-        element: <CategoryForm />
-      },
-      // FAQ
-      {
-        path: "/faq",
-        element: <FAQ />
-      },
-      // About us
-      {
-        path: "/about-us",
-        element: <AboutUs />
-      },
+      },      
       // Profile
       {
         path: "/profile",
@@ -110,8 +88,4 @@ export const router = createBrowserRouter([
       },
     ]
   },
-  {
-    path: "*",
-    element: <div>404 - Página não encontrada</div>
-  }
 ])

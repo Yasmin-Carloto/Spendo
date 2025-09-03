@@ -30,7 +30,7 @@ export default function AboutUs() {
 
       <Accordion type="single" collapsible className="w-full">
         {questionsAndAnswers.map((questionAndAnswer) => (
-            <AccordionItem value={questionAndAnswer.question}>
+            <AccordionItem value={questionAndAnswer.question} key={questionAndAnswer.question}>
                 <AccordionTrigger className="text-base font-semibold">
                     {questionAndAnswer.question}
                 </AccordionTrigger>

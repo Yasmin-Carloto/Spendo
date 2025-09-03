@@ -1,59 +1,61 @@
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
-import formatDate from "@/ui/utils/date-formatter"
+import { CheckCircle, Pencil, Trash2, Calendar } from "lucide-react"
 
 export default function GoalCard({ 
-    title, 
-    finalDate, 
-    percentage, 
-    moneyToCollect,
-    moneyCollected,
-    goToEditGoal, 
-    openDeleteDialog,
-    goalId,
+  title, 
+  finalDate, 
+  percentage, 
+  moneyToCollect,
+  moneyCollected,
+  goToEditGoal, 
+  openDeleteDialog,
+  goalId,
+  missing,
+  daysLeft, 
 }) {
-    return (
-        <div
-            className="bg-zinc-100 rounded-xl shadow p-4 w-full sm:w-[300px] flex flex-col gap-2"
-        >
-            <div className="flex justify-between items-start">
-                <div className="flex flex-col">
-                  <h3 className="text-lg font-bold">{title}</h3>
-                  <span className="text-sm text-zinc-600">Até {formatDate(finalDate)}</span>
-                </div>
-                {percentage == 100 ? (
-                  <span className="text-sm font-bold text-green-500">Meta concluída!</span>
-                ) : (
-                  <span className="text-sm font-bold text-green-500">{percentage}%</span>
-                )}
-            </div>
-
-            <div className="w-full mt-2">
-                <p className="text-sm">
-                  <span className="text-green-600 font-medium">
-                    R$ {moneyCollected.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
-                  </span>{" "}
-                  concluídos
-                </p>
-
-                <Progress value={percentage} />
-
-                <p className="text-right text-sm mt-1">
-                  de{" "}
-                  <span className="font-bold">
-                    R$ {moneyToCollect.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
-                  </span>
-                </p>
-            </div>
-
-            <div className="flex justify-between items-center mt-2">
-                <Button variant="outline" onClick={() => goToEditGoal(goalId)}>
-                  Editar
-                </Button>
-                <Button variant="destructive" onClick={() => openDeleteDialog(goalId)}>
-                  Excluir
-                </Button>
-            </div>
+  
+  return (
+    <div
+      className={`rounded-xl shadow p-4 w-full sm:w-[300px] flex flex-col gap-3 border 
+      ${percentage === 100 ? "bg-green-50 border-green-300" : "bg-white border-zinc-200"}`}
+    >
+      <div className="flex justify-between items-start">
+        <div className="flex flex-col">
+          <h3 className="text-lg font-bold text-title-1">{title}</h3>
+          <span className="flex items-center gap-1 text-xs text-subtitle-2">
+            <Calendar className="w-3 h-3" />
+            Até {finalDate} {daysLeft > 0 && `(faltam ${daysLeft} dias)`}
+          </span>
         </div>
-    )
+        {percentage === 100 ? (
+          <CheckCircle className="text-main-green/90 w-5 h-5" />
+        ) : (
+          <span className="text-sm font-bold text-main-green">{percentage}%</span>
+        )}
+      </div>
+
+      <div className="space-y-1">
+        <p className="text-sm text-subtitle-1">
+          <span className="font-medium text-main-green">R$ {moneyCollected}</span> de{" "}
+          <span className="font-semibold">R$ {moneyToCollect}</span>
+        </p>
+        <Progress value={percentage} />
+        {percentage < 100 && (
+          <p className="text-xs text-subtitle-2 text-right">Faltam R${missing}</p>
+        )}
+      </div>
+
+      <div className="flex justify-between items-center">
+        <Button variant="outline" onClick={() => goToEditGoal(goalId)}>
+          <Pencil className="w-4 h-4 mr-1" /> 
+          Editar
+        </Button>
+        <Button variant="destructive" onClick={() => openDeleteDialog(goalId)}>
+          <Trash2 className="w-4 h-4 mr-1" /> 
+          Excluir
+        </Button>
+      </div>
+    </div>
+  )
 }

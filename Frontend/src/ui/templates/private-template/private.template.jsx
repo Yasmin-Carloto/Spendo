@@ -16,7 +16,7 @@ export default function PrivateTemplate() {
 
         <div className="md:hidden absolute top-0 left-0 z-50 flex items-center gap-4 bg-white w-full h-16 px-4 shadow-sm">
           <FlexibleSidebar />
-          <img src={spendoLogo} className="h-8 w-auto" />
+          <img src={spendoLogo} className="h-12 w-auto" />
         </div>
 
         <main className="flex-1 overflow-auto pt-16 md:pt-0">

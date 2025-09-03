@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { useNavigate } from "react-router"
 import { useAuthorization } from "@/contexts/authorization.context"
+import { toast } from "sonner"
 
 export default function useSignup() {
     const [errors, setErrors] = useState({})
@@ -11,7 +12,7 @@ export default function useSignup() {
         passwordConfirmation: ""
     })
     let navigate = useNavigate()
-    const { saveToken, removeToken } = useAuthorization()
+    const { saveToken } = useAuthorization()
 
     function goToLogin() {
         navigate("/login")
@@ -40,17 +41,18 @@ export default function useSignup() {
 
                 if(!response.ok) {
                     if(data[0] == 'User already exists'){
-                        allErrors.user = "Usuário já está cadastrado!"
-                        setErrors(allErrors)
+                        toast.error("Usuário já está cadastrado.")
+                    } else {
+                        throw new Error("Error signing up!")
                     }
-                    throw new Error("Error signing up!")
                 }
 
                 saveToken(data.token)
                 setErrors({})
                 navigate("/")
             } catch (error) {
-                console.error(error)
+                toast.error("Não foi possível criar novo usuário.")
+                console.error("Ërror signing up", error)
             }
 
         } else {
