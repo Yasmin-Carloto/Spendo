@@ -1,7 +1,7 @@
 const db = require('../database/models')
 const { Transaction } = db
 
-async function create (data) {
+async function create(data) {
   return await Transaction.create(data)
 }
 
@@ -29,6 +29,25 @@ async function findByIdAndUserId(id, userId) {
   return await Transaction.findOne({ where: { id, userId } })
 }
 
+async function updateByGroupId(groupId, data, userId) {
+  return await Transaction.update(data, {
+    where: { groupId, userId }
+  })
+}
+
+async function findByGroupId(groupId, userId) {
+  return await Transaction.findAll({
+    where: { groupId, userId },
+    order: [['installmentNumber', 'ASC']]
+  })
+}
+
+async function removeByGroupId(groupId, userId) {
+  return await Transaction.destroy({
+    where: { groupId, userId }
+  })
+}
+
 module.exports = {
   create,
   update,
@@ -37,4 +56,7 @@ module.exports = {
   findByType,
   findByCategory,
   findByIdAndUserId,
+  updateByGroupId,
+  findByGroupId,
+  removeByGroupId
 }

@@ -73,10 +73,37 @@ function update() {
         minLength: 6,
         minUppercase: 1,
         minNumbers: 1,
-        minSymbols: 1
+        minSymbols: 1,
+        minLowercase: 1,
       })
       .withMessage('Password must contain at least 6 characters, including 1 uppercase, 1 number and 1 symbol'),
   ]
+}
+
+function forgotPassword() {
+    return [
+        body('email')
+        .exists()
+        .isEmail()
+        .withMessage('Invalid email'),
+    ]
+}
+
+function updatePassword() {
+    return [
+        body("password", validatorMessage("password"))
+            .exists()
+            .isStrongPassword({
+                minLength: 6,
+                minUppercase: 1,
+                minNumbers: 1,
+                minSymbols: 1,
+                minLowercase: 1,
+            })
+            .withMessage('Password must contain at least 6 characters, including 1 uppercase, 1 number and 1 symbol')
+            .isString()
+            .bail(),
+    ]
 }
 
 module.exports = {
@@ -84,4 +111,6 @@ module.exports = {
     findById,
     login,
     update,
+    forgotPassword,
+    updatePassword,
 }

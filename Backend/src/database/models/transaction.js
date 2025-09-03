@@ -18,10 +18,22 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
       })
+
+      Transaction.belongsTo(models.TransactionGroup, {
+        foreignKey: 'groupId',
+        as: 'group',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+      });
     }
   }
 
   Transaction.init({
+    id: { 
+      type: DataTypes.INTEGER,
+      autoIncrement: true, 
+      primaryKey: true, 
+    },
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -45,6 +57,18 @@ module.exports = (sequelize, DataTypes) => {
     type: {
       type: DataTypes.ENUM([TRANSACTION_TYPES.EXPENSE, TRANSACTION_TYPES.INCOME]),
       allowNull: false,
+    },
+    installments: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    installmentNumber: {
+      allowNull: true,
+      type: DataTypes.INTEGER
+    },
+    groupId: { 
+      type: DataTypes.INTEGER, 
+      allowNull: true, 
     },
   }, {
     sequelize,

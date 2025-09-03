@@ -1,8 +1,9 @@
-const userRepository = require('../repositories/user.repository');
-const createError = require('http-errors');
-require('dotenv').config();
-const bcrypt = require('bcrypt');
-const { sign } = require('jsonwebtoken');
+const userRepository = require('../repositories/user.repository')
+const createError = require('http-errors')
+require('dotenv').config()
+const bcrypt = require('bcrypt')
+const { sign } = require('jsonwebtoken')
+const nodemailer = require('nodemailer')
 
 async function create(user) {
   const existingUser = await userRepository.findByWhere({ email: user.email });
@@ -61,30 +62,93 @@ async function getUserInfoById(id) {
   return userInfoJson
 }
 
+async function getUserInfoByEmail(email) {
+  const user = await userRepository.findByWhere({ email })
+  if (!user) throw createError(404, 'User not found')
+
+  const userInfoJson = user.toJSON()
+  delete userInfoJson.password
+
+  return userInfoJson
+}
+
 async function update(data, id) {
   const existingUser = await userRepository.findById(id)
   if (!existingUser) throw createError(404, 'User not found')
 
   if (data.password) {
-    data.password = await bcrypt.hash(data.password, parseInt(process.env.SALT))
+    throw createError(404, 'It is not possible to change password.')
   }
 
   const result = await userRepository.update(data, id)
   if (result[0] === 0) {
     throw createError(400, 'Update failed')
   } else {
-      const updatedUser = await userRepository.findById(id)
-      const updatedUserJson = updatedUser.toJSON()
-      delete updatedUserJson.password
+    const updatedUser = await userRepository.findById(id)
+    const updatedUserJson = updatedUser.toJSON()
+    delete updatedUserJson.password
 
-      return updatedUserJson
+    return updatedUserJson
   }
+}
+
+async function updatePassword(data, id) {
+  const user = await getUserInfoById(id) 
+
+  if (!user) throw createError(404, 'User not found')
+  
+  data.password = await bcrypt.hash(data.password, parseInt(process.env.SALT))
+  const result = await userRepository.update(data, id)
+  if (result[0] === 0) {
+    throw createError(400, 'Update failed')
+  } else {
+    const updatedUser = await userRepository.findById(id)
+    const updatedUserJson = updatedUser.toJSON()
+    delete updatedUserJson.password
+
+    return updatedUserJson
+  }
+}
+
+async function forgotPassword(email) {
+  const user = await getUserInfoByEmail(email)
+
+  const token = sign(
+    { id: user.id },
+    process.env.TEMPORARY_SECRET,
+    { expiresIn: '5m' }
+  )
+
+  const resetLink = `${process.env.FRONTEND_URL}/recover-password?token=${token}`
+
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: { 
+      user: process.env.SPENDO_EMAIL, 
+      pass: process.env.SPENDO_PASSWORD 
+    }
+  })
+
+  await transporter.sendMail({
+    from: process.env.SPENDO_EMAIL,
+    to: user.email,
+    subject: 'Recuperação de Senha do Spendo',
+    html: `
+      <p>Click the link to reset your password:</p>
+      <a href="${resetLink}">${resetLink}</a>
+    `
+  })
+
+  return "Link sent successfully"
 }
 
 
 module.exports = {
   create,
   getUserInfoById,
+  getUserInfoByEmail,
   login,
   update,
+  forgotPassword,
+  updatePassword,
 }

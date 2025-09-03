@@ -4,6 +4,6 @@ const router = express.Router();
 const { getDashboard } = require('../controllers/dashboard.controller');
 const verifyJWT = require('../middlewares/authorizator');
 
-router.get('/', verifyJWT, getDashboard);
+router.get('/', verifyJWT.verifyJWT, getDashboard);
 
 module.exports = router;

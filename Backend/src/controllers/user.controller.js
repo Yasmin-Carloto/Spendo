@@ -60,10 +60,40 @@ async function update(req, res, next) {
   }
 }
 
+async function updatePassword(req, res, next) {
+    try {
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) throw createError(422, { errors: errors.array() })
+
+        const user = await userService.updatePassword(req.body, req.user.id)
+        res
+            .status(200)
+            .send({
+                message: "Password updated successfully"
+            })
+    } catch (error) {
+        next(error)
+    }
+}
+
+async function forgotPassword(req, res, next) {
+  try {
+    const { email } = req.body
+    const message = await userService.forgotPassword(email)
+
+    res.send({
+        message: message
+    })
+  } catch (error) {
+    next(error)
+  }
+}
 
 module.exports = {
     create,
     getUserInfo,
     login,
-    update
+    update,
+    forgotPassword, 
+    updatePassword
 }

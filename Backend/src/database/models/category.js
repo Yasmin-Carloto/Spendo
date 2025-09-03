@@ -14,6 +14,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Category.init({
+    id: { 
+      type: DataTypes.INTEGER,
+      autoIncrement: true, 
+      primaryKey: true, 
+    },
     name: DataTypes.STRING,
     color: DataTypes.STRING,
     userId: DataTypes.INTEGER
