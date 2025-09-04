@@ -2,80 +2,64 @@
 O backend, ou seja, a API do Spendo, é utilizado para a conexão com o banco de dados, autenticação e recuperação de senha.
 
 ## Sumário 
-1. Tecnologias utilizadas
-2. Configuração do arquivo .env
-3. Rotas
+1. [Tecnologias utilizadas](#tecnologias-utilizadas)
+2. [Configuração do arquivo .env](#configuração-do-arquivo-env)
+3. [Rotas](#rotas)
+    3.1. [Users](#users)
+    3.2. [Transactions](#transactions)
+    3.3. [Goals](#goals)
+    3.4. [Categories](#categories)
+4. [Arquitetura](#arquitetura)
 
 ## Tecnologias utilizadas
-- **bcrypt**: 
+- **bcrypt**:
     Para encriptação de senhas.
-
 - **body-parser**:
     Conversão de dados recebidos em JSON
-
 - **cors**:
     Para permitir outros endpoints acessarem esta aplicação Backend
-
 - **dotenv**:
     Para a criação de variáveis de ambientes
-
 - **express**:
     Servidor e gerenciamento de rotas
-
 - **express-validator**:
     Validação de dados de entrada
-
 - **http-errors**:
     Tratamento de erros HTTP
-
 - **jsonwebtoken**:
     Criação de token de autenticação 
-
 - **nodemailer**:
     Envio de email 
-
 - **pm2**:
     Gerenciamento de processos em produção
-
 - **sequelize + sequelize cli**:
     ORM para acesso ao banco de dados relacional
-
 - **nodemon**:
     Monitoramento automático em ambiente de desenvolvimento
 
 ## Configuração do arquivo .env
 1. API_PORT          
 Porta em que a API deve ser executada
-
 2. DATABASE_USER
 Usuário do Banco de Dados
-
 3. DATABASE_PASSWORD
 Senha do Banco de Dados
 4. DATABASE 
 Banco de Dados a ser utilizado
-
 5. DATABASE_HOST
 Esse é o nome do Host do Banco de Dados
-
 6. DATABASE_PORT
 Porta em que o Banco de Dados está exposto
-
 7. SALT
 Número de vezes que a senha será criptografada pelo bcrypt
-
 8. SECRET
 Senha usada para criptografar o jwt
-
 9. TEMPORARY_SECRET
 Senha usada para criptografar o jwt temporário para recuperação de senha
-
 10. FRONTEND_URL
 URL base do frontend
-
 11. SPENDO_EMAIL
 Email usado para enviar ao usuário o link de recuperação de senha
-
 12. SPENDO_PASSWORD
 Código de senha de App do Google.
 - O Google não deixa aplicativos externos usarem diretamente a sua senha principal da conta Google.
@@ -105,7 +89,6 @@ Código de senha de App do Google.
 
     ```
     - Autenticação: ❌ Não requer
-
 2. Login do Usuário -> /login
     - Método: POST
     - Recebe: { email, password }
@@ -122,7 +105,6 @@ Código de senha de App do Google.
     }
     ```
    - Autenticação: ❌ Não requer
-
 3. Solicitar recuperação de senha -> /forgot-password
     - Método: POST
     - Recebe: { email }
@@ -133,7 +115,6 @@ Código de senha de App do Google.
     }
     ```
     - Autenticação: ❌ Não requer
-
 4. Redefinir senha com token temporário -> /recover-password
     - Método: PUT
     - Recebe: { password }
@@ -144,7 +125,6 @@ Código de senha de App do Google.
     }
     ```
     - Autenticação: ✅ Requer token temporário (JWT enviado no link do e-mail)
-
 5. Buscar informações do usuário logado -> /me
     - Método: GET
     - Recebe: Nada (usa req.user.id do token JWT)
@@ -157,7 +137,6 @@ Código de senha de App do Google.
     }
     ```
     - Autenticação: ✅ Requer JWT válido
-
 6. Atualizar informações do usuário logado -> /me
     - Método: PUT
     - Recebe: { name?, email? } (senha não pode ser alterada aqui)
@@ -195,7 +174,6 @@ Código de senha de App do Google.
 
     ```
     - Autenticação: ✅ Requer JWT válido
-
 2. Listar transações por tipo -> /type/:type
     - Método: GET
     - Recebe: parâmetro :type (expense ou income)
@@ -215,7 +193,6 @@ Código de senha de App do Google.
     }
     ```
     - Autenticação: ✅ Requer JWT válido
-
 3. Listar transações por categoria -> /category/:categoryId
     - Método: GET
     - Recebe: parâmetro :categoryId
@@ -235,7 +212,6 @@ Código de senha de App do Google.
     }
     ```
     - Autenticação: ✅ Requer JWT válido
-
 4. Buscar transação por ID -> /:id
     - Método: GET
     - Recebe: parâmetro :id
@@ -251,7 +227,6 @@ Código de senha de App do Google.
     }
     ```
     - Autenticação: ✅ Requer JWT válido
-
 5. Criar transação -> /
     - Método: POST
     - Recebe:
@@ -296,7 +271,6 @@ Código de senha de App do Google.
     ]
     ```
     - Autenticação: ✅ Requer JWT válido
-
 6. Atualizar transação -> /:id
     - Método: PUT 
     - Recebe:
@@ -321,7 +295,6 @@ Código de senha de App do Google.
     }
     ```
     - Autenticação: ✅ Requer JWT válido
-
 7. Remover transação -> /:id
     - Método: DELETE
     - Recebe: parâmetro :id
@@ -359,7 +332,6 @@ Código de senha de App do Google.
     }
     ```
     - Autenticação: ✅ Sim (JWT)
-
 2. Atualizar meta -> /goals/:id
     - Método: PUT
     - Recebe (body):
@@ -385,7 +357,6 @@ Código de senha de App do Google.
     }
     ```
     - Autenticação: ✅ Sim (JWT)
-
 3. Excluir meta -> /goals/:id
     - Método: DELETE
     - Recebe (params):
@@ -397,7 +368,6 @@ Código de senha de App do Google.
     }
     ```
     - Autenticação: ✅ Sim (JWT)
-
 4. Listar todas as metas do usuário -> /goals
     - Método: GET /goals
     - Recebe: nada no body
@@ -425,7 +395,6 @@ Código de senha de App do Google.
     ]
     ```
     - Autenticação: ✅ Sim (JWT)
-
 5. Buscar meta por ID -> /goals/:id
     - Método: GET /goals/:id
     - Recebe (params):
@@ -464,7 +433,6 @@ Código de senha de App do Google.
     }
     ```
     - Autenticação: ✅ Sim (JWT)
-
 2. Atualizar categoria -> /categories/:id
     - Método: PUT /categories/:id
     - Recebe (body):
@@ -487,7 +455,6 @@ Código de senha de App do Google.
     }
     ```
     - Autenticação: ✅ Sim (JWT)
-
 3. Excluir categoria -> /categories/:id
     - Método: DELETE
     - Recebe (params):
@@ -499,7 +466,6 @@ Código de senha de App do Google.
     }
     ```
     - Autenticação: ✅ Sim (JWT)
-
 4. Listar todas as categorias do usuário -> /categories
     - Método: GET
     - Recebe: nada no body
@@ -521,7 +487,6 @@ Código de senha de App do Google.
     ]
     ```
     - Autenticação: ✅ Sim (JWT)
-
 5. Buscar categoria por ID -> /categories/:id
     - Método: GET
     - Recebe (params):
