@@ -5,10 +5,10 @@ O backend, ou seja, a API do Spendo, é utilizado para a conexão com o banco de
 1. [Tecnologias utilizadas](#tecnologias-utilizadas)
 2. [Configuração do arquivo .env](#configuração-do-arquivo-env)
 3. [Rotas](#rotas)
-    3.1. [Users](#users)
-    3.2. [Transactions](#transactions)
-    3.3. [Goals](#goals)
-    3.4. [Categories](#categories)
+    - [Users](#users)
+    - [Transactions](#transactions)
+    - [Goals](#goals)
+    - [Categories](#categories)
 4. [Arquitetura](#arquitetura)
 
 ## Tecnologias utilizadas
