@@ -3,7 +3,8 @@ Interface da aplicação Spendo, voltada para o gerenciamento de finanças.
 
 ## Sumário 
 1. [Tecnologias utilizadas](#tecnologias-utilizadas)
-2. [Configuração do arquivo .env](#tecnologias-utilizadas)
+2. [Protótipos](#protótipos)
+3. [Configuração do arquivo .env](#tecnologias-utilizadas)
 4. [Arquitetura](#arquitetura)
 
 ## Protótipos
