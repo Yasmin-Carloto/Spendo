@@ -6,6 +6,12 @@ Interface da aplicação Spendo, voltada para o gerenciamento de finanças.
 2. [Configuração do arquivo .env](#tecnologias-utilizadas)
 4. [Arquitetura](#arquitetura)
 
+## Protótipos
+Esse protótipos foram feitos no figma.
+![Protótipo para mobile](https://github.com/Yasmin-Carloto/Spendo/blob/main/Frontend/public/assets/Mobile.png)
+
+![Protótipo para PC](https://github.com/Yasmin-Carloto/Spendo/blob/main/Frontend/public/assets/PC.png)
+
 ## Tecnologias utilizadas
 - **shadcn**:
     Para a reutilização de componentes.
